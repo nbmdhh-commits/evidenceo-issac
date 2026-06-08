@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Issac Healthcare AI — Comprehensive UI/UX Audit Report</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    :root {
+      --bg: #ffffff;
+      --bg-subtle: #f8fafc;
+      --bg-muted: #f1f5f9;
+      --border: #e2e8f0;
+      --border-accent: #c7d2fe;
+      --text: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      --primary: #6366f1;
+      --primary-light: #eef2ff;
+      --primary-dark: #4338ca;
+      --secondary: #8b5cf6;
+      --accent: #06b6d4;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --danger-light: #fef2f2;
+      --warning-light: #fffbeb;
+      --success-light: #ecfdf5;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    @page {
+      size: A4;
+      margin: 20mm 18mm 24mm 18mm;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      font-size: 10pt;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* ── Cover Page ── */
+    .cover-page {
+      page-break-after: always;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover-bg-pattern {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      z-index: 0;
+    }
+
+    .cover-glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, rgba(139,92,246,0.04) 40%, transparent 70%);
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .cover-glow-1 { top: -120px; right: -100px; }
+    .cover-glow-2 { bottom: -150px; left: -80px; background: radial-gradient(circle, rgba(6,182,212,0.06) 0%, transparent 70%); }
+
+    .cover-content {
+      position: relative;
+      z-index: 1;
+      max-width: 560px;
+    }
+
+    .cover-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary-light);
+      border: 1px solid var(--border-accent);
+      color: var(--primary);
+      font-size: 9pt;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 99px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+
+    .cover-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      border-radius: 50%;
+    }
+
+    .cover-title {
+      font-size: 32pt;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--text) 40%, var(--primary) 80%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cover-subtitle {
+      font-size: 13pt;
+      color: var(--text-secondary);
+      font-weight: 400;
+      line-height: 1.6;
+      margin-bottom: 48px;
+    }
+
+    .cover-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      text-align: left;
+      width: 100%;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .cover-meta-item {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      padding: 14px 18px;
+      border-radius: 12px;
+    }
+
+    .cover-meta-label {
+      font-size: 7.5pt;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 4px;
+    }
+
+    .cover-meta-value {
+      font-size: 10pt;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .cover-footer {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 8pt;
+      color: var(--text-muted);
+      z-index: 1;
+    }
+
+    /* ── Table of Contents ── */
+    .toc-page {
+      page-break-after: always;
+      padding-top: 40px;
+    }
+
+    .toc-title {
+      font-size: 20pt;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+      letter-spacing: -0.03em;
+    }
+
+    .toc-subtitle {
+      font-size: 10pt;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .toc-item {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 10pt;
+    }
+
+    .toc-num {
+      font-weight: 800;
+      color: var(--primary);
+      font-size: 9pt;
+      min-width: 28px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .toc-label {
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .toc-dots {
+      flex: 1;
+      border-bottom: 1px dotted var(--border);
+      margin: 0 4px;
+      min-width: 30px;
+    }
+
+    .toc-page-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9pt;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* ── Page Sections ── */
+    .section {
+      page-break-before: always;
+      padding-top: 8px;
+    }
+
+    .section:first-of-type {
+      page-break-before: avoid;
+    }
+
+    .section-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9pt;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      font-size: 18pt;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+
+    .section-desc {
+      font-size: 10pt;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      max-width: 90%;
+    }
+
+    hr.section-rule {
+      border: none;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+      border-radius: 4px;
+      margin-bottom: 28px;
+    }
+
+    /* ── Content Typography ── */
+    h3 {
+      font-size: 12pt;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 22px;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    h4 {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 16px;
+      margin-bottom: 6px;
+    }
+
+    p {
+      margin-bottom: 10px;
+      color: var(--text-secondary);
+    }
+
+    strong { color: var(--text); }
+
+    ul, ol {
+      margin-left: 18px;
+      margin-bottom: 12px;
+    }
+
+    li {
+      margin-bottom: 4px;
+      color: var(--text-secondary);
+    }
+
+    li strong { color: var(--text); }
+
+    /* ── Callout Boxes ── */
+    .callout {
+      padding: 14px 18px;
+      border-radius: 10px;
+      margin: 14px 0;
+      border-left: 4px solid;
+      font-size: 9.5pt;
+    }
+
+    .callout-critical {
+      background: var(--danger-light);
+      border-color: var(--danger);
+    }
+
+    .callout-critical .callout-title { color: var(--danger); }
+
+    .callout-warning {
+      background: var(--warning-light);
+      border-color: var(--warning);
+    }
+
+    .callout-warning .callout-title { color: #b45309; }
+
+    .callout-success {
+      background: var(--success-light);
+      border-color: var(--success);
+    }
+
+    .callout-success .callout-title { color: #047857; }
+
+    .callout-info {
+      background: var(--primary-light);
+      border-color: var(--primary);
+    }
+
+    .callout-info .callout-title { color: var(--primary-dark); }
+
+    .callout-title {
+      font-weight: 700;
+      font-size: 9.5pt;
+      margin-bottom: 4px;
+    }
+
+    .callout p {
+      margin: 0;
+      font-size: 9.5pt;
+    }
+
+    /* ── Finding Cards ── */
+    .finding-card {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin: 14px 0;
+      page-break-inside: avoid;
+    }
+
+    .finding-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .severity-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 7.5pt;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 99px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .severity-critical {
+      background: #fecaca;
+      color: #991b1b;
+    }
+
+    .severity-high {
+      background: #fed7aa;
+      color: #9a3412;
+    }
+
+    .severity-medium {
+      background: #fef08a;
+      color: #854d0e;
+    }
+
+    .severity-low {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .finding-title {
+      font-weight: 700;
+      font-size: 10.5pt;
+      color: var(--text);
+    }
+
+    .finding-body {
+      font-size: 9.5pt;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .finding-body p { font-size: 9.5pt; }
+
+    .finding-label {
+      font-size: 8pt;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 10px;
+      margin-bottom: 3px;
+    }
+
+    /* ── Tables ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 9pt;
+    }
+
+    thead th {
+      background: var(--bg-muted);
+      font-weight: 700;
+      font-size: 8pt;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+    }
+
+    tbody td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      vertical-align: top;
+    }
+
+    tbody tr:last-child td { border-bottom: none; }
+
+    .emoji-cell { text-align: center; font-size: 12pt; }
+
+    /* ── Code Blocks ── */
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8.5pt;
+      background: var(--bg-muted);
+      padding: 1px 5px;
+      border-radius: 4px;
+      color: var(--primary-dark);
+    }
+
+    pre {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 16px 20px;
+      border-radius: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8.5pt;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin: 12px 0;
+      page-break-inside: avoid;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: inherit;
+    }
+
+    .css-prop { color: #7dd3fc; }
+    .css-val { color: #fda4af; }
+    .css-comment { color: #64748b; }
+    .css-selector { color: #a5b4fc; }
+
+    /* ── Layout Diagrams ── */
+    .layout-diagram {
+      background: var(--bg-muted);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 16px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8pt;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      white-space: pre;
+      page-break-inside: avoid;
+    }
+
+    .layout-label-bad { color: var(--danger); font-weight: 700; }
+    .layout-label-good { color: var(--success); font-weight: 700; }
+
+    /* ── Flow Diagrams ── */
+    .flow-diagram {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin: 18px 0;
+      flex-wrap: wrap;
+      page-break-inside: avoid;
+    }
+
+    .flow-node {
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 8.5pt;
+      font-weight: 600;
+      text-align: center;
+      min-width: 100px;
+    }
+
+    .flow-node-ok { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+    .flow-node-bad { background: #fecaca; color: #991b1b; border: 1px solid #fca5a5; }
+    .flow-node-neutral { background: var(--bg-muted); color: var(--text-secondary); border: 1px solid var(--border); }
+
+    .flow-arrow {
+      font-size: 14pt;
+      color: var(--text-muted);
+      padding: 0 6px;
+    }
+
+    .flow-label {
+      font-size: 7pt;
+      color: var(--text-muted);
+      display: block;
+      margin-top: 2px;
+      font-weight: 400;
+    }
+
+    /* ── Checklist ── */
+    .checklist {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 14px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 6px;
+      font-size: 9.5pt;
+      page-break-inside: avoid;
+    }
+
+    .check-box {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── Scorecard ── */
+    .score-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .score-emoji { font-size: 14pt; }
+
+    .score-bar-wrap {
+      flex: 1;
+      height: 8px;
+      background: var(--bg-muted);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .score-bar {
+      height: 100%;
+      border-radius: 99px;
+    }
+
+    .score-bar-good { background: linear-gradient(90deg, var(--success), #34d399); }
+    .score-bar-ok { background: linear-gradient(90deg, var(--warning), #fbbf24); }
+    .score-bar-bad { background: linear-gradient(90deg, var(--danger), #f87171); }
+
+    .score-label {
+      font-size: 9pt;
+      font-weight: 600;
+      min-width: 80px;
+      color: var(--text);
+    }
+
+    .score-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9pt;
+      font-weight: 700;
+      min-width: 40px;
+      text-align: right;
+    }
+
+    .page-break { page-break-before: always; }
+
+    /* ── Phase cards ── */
+    .phase-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 22px;
+      margin: 16px 0;
+      page-break-inside: avoid;
+    }
+
+    .phase-card-1 { border-left: 5px solid var(--danger); }
+    .phase-card-2 { border-left: 5px solid var(--warning); }
+    .phase-card-3 { border-left: 5px solid var(--primary); }
+
+    .phase-title {
+      font-size: 11pt;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .phase-desc {
+      font-size: 9pt;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .rec-item {
+      padding: 10px 14px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      page-break-inside: avoid;
+    }
+
+    .rec-item-title {
+      font-weight: 700;
+      font-size: 9.5pt;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .rec-item-body {
+      font-size: 9pt;
+      color: var(--text-secondary);
+    }
+
+    /* ── Page Footer ── */
+    .page-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0 18mm 8mm 18mm;
+      display: flex;
+      justify-content: space-between;
+      font-size: 7pt;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- COVER PAGE                               -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="cover-page">
+    <div class="cover-bg-pattern"></div>
+    <div class="cover-glow cover-glow-1"></div>
+    <div class="cover-glow cover-glow-2"></div>
+
+    <div class="cover-content">
+      <div class="cover-badge">UI/UX Audit Report</div>
+      <h1 class="cover-title">Issac Healthcare AI Platform</h1>
+      <p class="cover-subtitle">A comprehensive UI/UX audit covering information architecture, visual design systems, accessibility compliance, interaction design, and a strategic roadmap to achieve a world-class medical learning experience.</p>
+
+      <div class="cover-meta-grid">
+        <div class="cover-meta-item">
+          <div class="cover-meta-label">Conducted By</div>
+          <div class="cover-meta-value">Sr. Product Designer, UX Researcher & Strategist</div>
+        </div>
+        <div class="cover-meta-item">
+          <div class="cover-meta-label">Date</div>
+          <div class="cover-meta-value">June 8, 2026</div>
+        </div>
+        <div class="cover-meta-item">
+          <div class="cover-meta-label">Platform</div>
+          <div class="cover-meta-value">Issac — AI Medical Learning & Intelligence</div>
+        </div>
+        <div class="cover-meta-item">
+          <div class="cover-meta-label">Methodology</div>
+          <div class="cover-meta-value">Nielsen's Heuristics · WCAG 2.1 AA · Competitive Analysis</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-footer">CONFIDENTIAL — For Internal Stakeholder Review Only</div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- TABLE OF CONTENTS                        -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="toc-page">
+    <h2 class="toc-title">Table of Contents</h2>
+    <p class="toc-subtitle">Structured findings, analysis, and actionable roadmap</p>
+
+    <ul class="toc-list">
+      <li class="toc-item">
+        <span class="toc-num">01</span>
+        <span class="toc-label">Executive Summary</span>
+        <span class="toc-dots"></span>
+        <span class="toc-page-num">3</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-num">02</span>
+        <span class="toc-label">UX Scorecard by Workflow</span>
+        <span class="toc-dots"></span>
+        <span class="toc-page-num">3</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-num">03</span>
+        <span class="toc-label">Information Architecture & Navigation</span>
+        <span class="toc-dots"></span>
+        <span class="toc-page-num">4</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-num">04</span>
+        <span class="toc-label">Screen-by-Screen Usability Audit</span>
+        <span class="toc-dots"></span>
+        <span class="toc-page-num">5</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-num">05</span>
+        <span class="toc-label">Visual Design System & Consistency</span>
+        <span class="toc-dots"></span>
+        <span class="toc-page-num">7</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-num">06</span>
+        <span class="toc-label">Accessibility & WCAG Compliance</span>
+        <span class="toc-dots"></span>
+        <span class="toc-page-num">8</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-num">07</span>
+        <span class="toc-label">Interaction Design & Micro-animations</span>
+        <span class="toc-dots"></span>
+        <span class="toc-page-num">9</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-num">08</span>
+        <span class="toc-label">Competitive Benchmarking</span>
+        <span class="toc-dots"></span>
+        <span class="toc-page-num">10</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-num">09</span>
+        <span class="toc-label">Prioritized Recommendations & Strategic Roadmap</span>
+        <span class="toc-dots"></span>
+        <span class="toc-page-num">11</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-num">10</span>
+        <span class="toc-label">Implementation Checklist</span>
+        <span class="toc-dots"></span>
+        <span class="toc-page-num">13</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- SECTION 1: EXECUTIVE SUMMARY             -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">Section 01</div>
+    <h2 class="section-title">Executive Summary</h2>
+    <hr class="section-rule">
+
+    <p>The <strong>Issac Healthcare AI Platform</strong> is a premium, glassmorphic medical learning application built for clinical scholars. It features rich visual aesthetics — custom radial glows, neumorphic cards, modern typography via Outfit & Plus Jakarta Sans — and high-density clinical data.</p>
+
+    <p>While the platform succeeds in creating a stunning first impression and offers a wide breadth of clinical content, a deep UI/UX audit reveals <strong>critical usability defects</strong>, <strong>broken interaction loops</strong>, <strong>visual design regressions across themes</strong>, and <strong>severe accessibility violations</strong> that prevent it from meeting production-quality standards.</p>
+
+    <div class="callout callout-info">
+      <div class="callout-title">Audit Methodology</div>
+      <p>This audit evaluates the platform against <strong>Nielsen's 10 Usability Heuristics</strong>, <strong>WCAG 2.1 AA Guidelines</strong>, and modern interaction design standards. Findings are sourced from a full code review of the HTML (1,657 lines), CSS (2,742 lines), and JavaScript (4,253 lines) codebase, supplemented by headless browser screenshot captures.</p>
+    </div>
+
+    <h3>Key Findings at a Glance</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Severity</th>
+          <th>Count</th>
+          <th>Highlights</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="severity-badge severity-critical">Critical</span></td>
+          <td><strong>5</strong></td>
+          <td>Broken case simulator learning loop, keyboard navigation deficit, invisible hover text, useless selector bug, muted text contrast failures</td>
+        </tr>
+        <tr>
+          <td><span class="severity-badge severity-high">High</span></td>
+          <td><strong>6</strong></td>
+          <td>Simulator layout imbalance, legacy dead-end panel, missing bookmark feedback, abrupt search redirects, no touch events on mobile, inline style design debt</td>
+        </tr>
+        <tr>
+          <td><span class="severity-badge severity-medium">Medium</span></td>
+          <td><strong>4</strong></td>
+          <td>Sidebar cognitive overload, artificial loading delay, native alert dialogs, splash overflow on small screens</td>
+        </tr>
+        <tr>
+          <td><span class="severity-badge severity-low">Low</span></td>
+          <td><strong>2</strong></td>
+          <td>Missing avatar alt text, comparison DB key naming conventions</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- SECTION 2: SCORECARD                     -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">Section 02</div>
+    <h2 class="section-title">UX Scorecard by Workflow</h2>
+    <hr class="section-rule">
+
+    <div class="score-row">
+      <span class="score-label">Onboarding & Splash</span>
+      <div class="score-bar-wrap"><div class="score-bar score-bar-good" style="width: 80%;"></div></div>
+      <span class="score-val" style="color: var(--success);">8/10</span>
+    </div>
+    <div class="score-row">
+      <span class="score-label">Dashboard UX</span>
+      <div class="score-bar-wrap"><div class="score-bar score-bar-good" style="width: 70%;"></div></div>
+      <span class="score-val" style="color: var(--success);">7/10</span>
+    </div>
+    <div class="score-row">
+      <span class="score-label">Topic Learning</span>
+      <div class="score-bar-wrap"><div class="score-bar score-bar-ok" style="width: 65%;"></div></div>
+      <span class="score-val" style="color: #b45309;">6.5/10</span>
+    </div>
+    <div class="score-row">
+      <span class="score-label">Search & Discovery</span>
+      <div class="score-bar-wrap"><div class="score-bar score-bar-ok" style="width: 50%;"></div></div>
+      <span class="score-val" style="color: #b45309;">5/10</span>
+    </div>
+    <div class="score-row">
+      <span class="score-label">Clinical Simulator</span>
+      <div class="score-bar-wrap"><div class="score-bar score-bar-bad" style="width: 30%;"></div></div>
+      <span class="score-val" style="color: var(--danger);">3/10</span>
+    </div>
+    <div class="score-row">
+      <span class="score-label">Concept Comparison</span>
+      <div class="score-bar-wrap"><div class="score-bar score-bar-bad" style="width: 20%;"></div></div>
+      <span class="score-val" style="color: var(--danger);">2/10</span>
+    </div>
+    <div class="score-row">
+      <span class="score-label">Accessibility (a11y)</span>
+      <div class="score-bar-wrap"><div class="score-bar score-bar-bad" style="width: 20%;"></div></div>
+      <span class="score-val" style="color: var(--danger);">2/10</span>
+    </div>
+    <div class="score-row" style="border-bottom: none;">
+      <span class="score-label">Mobile & Responsive</span>
+      <div class="score-bar-wrap"><div class="score-bar score-bar-ok" style="width: 45%;"></div></div>
+      <span class="score-val" style="color: #b45309;">4.5/10</span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- SECTION 3: IA & NAVIGATION               -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">Section 03</div>
+    <h2 class="section-title">Information Architecture & Navigation System</h2>
+    <hr class="section-rule">
+
+    <div class="finding-card">
+      <div class="finding-header">
+        <span class="severity-badge severity-medium">Medium</span>
+        <span class="finding-title">Sidebar Navigation Cognitive Overload</span>
+      </div>
+      <div class="finding-body">
+        <p>The left sidebar presents <strong>14 global navigation items</strong> across three groups (Workspace, Medical AI Engine, Studies & Learning). Miller's Law states that the average person can only keep 7 (± 2) items in working memory.</p>
+        <p>Items like <em>Diagram Studio</em>, <em>Medical Flowcharts</em>, <em>Concept Compare</em>, and <em>Smart Notes Gen</em> are contextual widgets — not global navigation destinations. Their presence at the top level inflates cognitive load and slows wayfinding.</p>
+        <div class="finding-label">Recommendation</div>
+        <p>Consolidate 14 items into <strong>5 primary navigation hubs</strong>: Dashboard, Learning Engine, AI Workspace, Simulation Labs, and Creator Studio. Nest contextual widgets within their parent hubs.</p>
+      </div>
+    </div>
+
+    <div class="finding-card">
+      <div class="finding-header">
+        <span class="severity-badge severity-high">High</span>
+        <span class="finding-title">Legacy Dead-End Panel: Concept Maps</span>
+      </div>
+      <div class="finding-body">
+        <p>The Dashboard Quick Actions include a "Concept Maps" button that navigates to a <strong>legacy wrapper panel</strong> (<code>panel-concept-maps</code>). This panel renders a bare container whose only interactive element is a button saying "Open Knowledge Engine".</p>
+        <p>This creates a <strong>dead-end workflow</strong>: the user clicks "Concept Maps", arrives at an empty screen, and is forced to click again to reach the actual Knowledge Engine. Meanwhile, "Knowledge Engine" is already available in the sidebar.</p>
+
+        <div class="flow-diagram">
+          <div class="flow-node flow-node-neutral">Dashboard<br><span class="flow-label">Quick Actions</span></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node flow-node-bad">Concept Maps<br><span class="flow-label">Dead-End Panel</span></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node flow-node-ok">Knowledge Engine<br><span class="flow-label">Active Workspace</span></div>
+        </div>
+
+        <div class="finding-label">Recommendation</div>
+        <p>Remove the legacy <code>panel-concept-maps</code> entirely. Update the Quick Action button to navigate directly to the Knowledge Engine panel.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- SECTION 4: SCREEN-BY-SCREEN              -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">Section 04</div>
+    <h2 class="section-title">Screen-by-Screen Usability Audit</h2>
+    <hr class="section-rule">
+
+    <h3>4.1 Vision Splash Screen (Landing Page)</h3>
+    <p>The landing page is the strongest screen in the platform. Premium dark-mode radial gradients, animated glow pulses, and the SVG neural-network brand logo set a high-end tone. The CTA button placement above the features grid is excellent.</p>
+
+    <div class="finding-card">
+      <div class="finding-header">
+        <span class="severity-badge severity-medium">Medium</span>
+        <span class="finding-title">Splash Overflow on Small Viewports</span>
+      </div>
+      <div class="finding-body">
+        <p>The splash screen uses a fixed <code>100vh</code> height. On smaller laptop screens (11–13"), the features grid overflows and gets clipped because vertical margins are rigid pixel values rather than responsive units.</p>
+      </div>
+    </div>
+
+    <h3>4.2 Clinical Case Study Simulator</h3>
+
+    <div class="finding-card">
+      <div class="finding-header">
+        <span class="severity-badge severity-critical">Critical</span>
+        <span class="finding-title">Broken Educational & Learning Loop</span>
+      </div>
+      <div class="finding-body">
+        <p>The patient file stack (Patient Summary, Clinical Findings, Differentials, Investigations, Management, AI Insights) is <strong>fully visible and readable</strong> from the very start of a clinical simulation.</p>
+        <p>The simulator questions ask the user to diagnose the patient, select the correct test, and establish a treatment plan. However, the exact answers are written in the cards directly below the chat box (e.g., "ECG reveals 3mm ST-segment elevation", "Primary PCI of LAD").</p>
+
+        <div class="callout callout-critical">
+          <div class="callout-title">Root Cause</div>
+          <p>The <code>updateCardLockStates()</code> method in <code>app.js</code> (line 2958) <strong>unconditionally removes</strong> the <code>.locked</code> class from all patient file cards, disabling the blur/lock overlay progression that was originally designed to mask answers.</p>
+        </div>
+
+        <div class="finding-label">Impact</div>
+        <p>This completely destroys the diagnostic challenge and recall value. The user has zero incentive to think critically, as they are presented with a cheat sheet on the same screen. This is the single most impactful UX defect in the application.</p>
+      </div>
+    </div>
+
+    <div class="finding-card">
+      <div class="finding-header">
+        <span class="severity-badge severity-high">High</span>
+        <span class="finding-title">Severe Layout Imbalance</span>
+      </div>
+      <div class="finding-body">
+        <p>The simulator uses a two-column grid (<code>1.2fr 1.3fr</code>). The left column stacks the Chat Simulator, XP stats, and <strong>all 6 patient file cards</strong>, making it ~2000px high. The right column has only 3 short static reference cards (~500px high), creating a massive empty space.</p>
+        <div class="layout-diagram">┌─────────────────────────────────────────────────────────────┐
+│                     Filter Bar (Search + Filters)           │
+├──────────────────────────┬──────────────────────────────────┤
+│                          │                                  │
+│  [Chat Simulator]        │  [Clinical Pearls]               │
+│                          │  [Red Flags Tips]                │
+│  [Patient Summary]       │  [Related Cases]                 │
+│  [Clinical Findings]     │                                  │
+│  [Differentials]         │  <span class="layout-label-bad">▓▓ MASSIVE EMPTY SPACE ▓▓</span>        │
+│  [Investigations]        │                                  │
+│  [Management]            │                                  │
+│  [AI Insights]           │                                  │
+│                          │                                  │
+└──────────────────────────┴──────────────────────────────────┘</div>
+        <div class="finding-label">Recommendation</div>
+        <p>Place the Chat Simulator on the left and the Patient Case File cards on the right. Move static reference cards into collapsible tabs or a secondary drawer to balance column heights.</p>
+      </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <h3>4.3 Concept Comparison Screen</h3>
+
+    <div class="finding-card">
+      <div class="finding-header">
+        <span class="severity-badge severity-critical">Critical</span>
+        <span class="finding-title">The Useless Duplicate Selector Bug</span>
+      </div>
+      <div class="finding-body">
+        <p>The screen displays two dropdown selectors (<code>#compare-select-1</code> and <code>#compare-select-2</code>) with the label "Compare Pairs: [Dropdown 1] with [Dropdown 2]". Both dropdowns are populated with pre-made <em>pairs</em> (e.g., "STEMI vs NSTEMI Infarction").</p>
+        <p>When the user clicks "Compare", the JavaScript code <strong>only reads the value from the first selector</strong> and completely ignores the second one. Selecting a concept in the second dropdown has zero effect.</p>
+
+        <div class="callout callout-warning">
+          <div class="callout-title">Design Incoherence</div>
+          <p>The layout implies the user is selecting two independent concepts to compare (Concept A <em>with</em> Concept B), but the actual data model uses pre-paired entries. The second selector is functionally dead code.</p>
+        </div>
+
+        <div class="finding-label">Recommendation</div>
+        <p>Remove the second selector entirely. Relabel the first selector to "Select Comparison Pair:" to match the actual data model.</p>
+      </div>
+    </div>
+
+    <h3>4.4 Search & AI Assistant Workspace</h3>
+
+    <div class="finding-card">
+      <div class="finding-header">
+        <span class="severity-badge severity-high">High</span>
+        <span class="finding-title">Forced Loading Delay & Abrupt Auto-Redirect</span>
+      </div>
+      <div class="finding-body">
+        <p>Every search query initiates a progress bar animation that takes <strong>3.8 seconds</strong> before displaying results. While acceptable for initial onboarding, this artificial delay becomes a workflow bottleneck for power users.</p>
+        <p>When the animation completes, the application abruptly switches from the AI Workspace panel to <code>panel-global-search</code> without user consent. This sudden screen transition violates the heuristic of <strong>User Control and Freedom</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- SECTION 5: VISUAL DESIGN                 -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">Section 05</div>
+    <h2 class="section-title">Visual Design System & Consistency</h2>
+    <hr class="section-rule">
+
+    <div class="finding-card">
+      <div class="finding-header">
+        <span class="severity-badge severity-critical">Critical</span>
+        <span class="finding-title">Light Mode Hover Text Invisibility</span>
+      </div>
+      <div class="finding-body">
+        <p>The <code>.btn-outline</code> class sets invisible borders in light mode (<code>rgba(255, 255, 255, 0.1)</code> on white). On hover, the text color changes to white:</p>
+        <pre><code><span class="css-selector">.btn-outline:hover</span> {
+  <span class="css-prop">background</span>: <span class="css-val">rgba(255, 255, 255, 0.02)</span>;
+  <span class="css-prop">color</span>: <span class="css-val">#fff</span>;  <span class="css-comment">/* White text on white background! */</span>
+  <span class="css-prop">border-color</span>: <span class="css-val">rgba(255, 255, 255, 0.2)</span>;
+}</code></pre>
+        <p>In light mode, hovering over buttons like "Explore All", "Generate Notes", or "← Back to Topic" makes their text <strong>completely invisible</strong>.</p>
+        <div class="finding-label">Root Cause</div>
+        <p>The stylesheet was authored exclusively for a dark theme and lacks light-mode class overrides for interactive button hover states. No <code>body:not(.dark-mode)</code> or <code>body.dark-mode</code> scope exists for <code>.btn-outline</code>.</p>
+      </div>
+    </div>
+
+    <div class="finding-card">
+      <div class="finding-header">
+        <span class="severity-badge severity-high">High</span>
+        <span class="finding-title">Missing Bookmark Visual Feedback</span>
+      </div>
+      <div class="finding-body">
+        <p>Clicking the bookmark button in Topic Learning correctly adds/removes the <code>.active</code> class and updates the internal array. However, <strong>no CSS rules</strong> are defined for <code>.bookmark-btn.active</code> in <code>styles.css</code>.</p>
+        <p>The bookmark button looks identical whether the topic is bookmarked or not. This violates Nielsen's heuristic of <strong>Visibility of System Status</strong> — the user cannot verify if their action succeeded without navigating to the Library panel.</p>
+      </div>
+    </div>
+
+    <div class="finding-card">
+      <div class="finding-header">
+        <span class="severity-badge severity-high">High</span>
+        <span class="finding-title">Inline Style Design Debt</span>
+      </div>
+      <div class="finding-body">
+        <p>Design classes like <code>.badge-green</code> and <code>.badge-blue</code> are routinely overridden by inline styles in the HTML to force indigo brand colors (e.g., <code>style="background: var(--primary-glow); color: var(--primary);"</code>).</p>
+        <p>This fragments the design system, inflates HTML file size (106KB), and makes dark/light mode synchronization prone to regressions since inline styles cannot be overridden by theme classes.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- SECTION 6: ACCESSIBILITY                 -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">Section 06</div>
+    <h2 class="section-title">Accessibility & WCAG Compliance</h2>
+    <hr class="section-rule">
+
+    <div class="callout callout-critical">
+      <div class="callout-title">Overall Assessment: Non-Compliant</div>
+      <p>The application fails multiple WCAG 2.1 Level A and AA success criteria. Keyboard-only users are completely locked out of the primary navigation and all interactive diagrams.</p>
+    </div>
+
+    <div class="finding-card">
+      <div class="finding-header">
+        <span class="severity-badge severity-critical">Critical</span>
+        <span class="finding-title">WCAG 2.1.1: Keyboard Navigation Deficit</span>
+      </div>
+      <div class="finding-body">
+        <p>The global sidebar navigation links are implemented as <code>&lt;li&gt;</code> elements <strong>without</strong> <code>tabindex</code> attributes and without keyboard event handlers. Only mouse click listeners are bound via JavaScript.</p>
+        <p>Users navigating exclusively with a keyboard (or switch devices) <strong>cannot focus on or activate any navigation item</strong>, making the entire application inaccessible beyond the default home dashboard.</p>
+        <p>Additionally, all SVG interactive hotspots in the Diagram Studio are <code>&lt;g&gt;</code> groups with inline <code>onclick</code> handlers — they cannot be tabbed to or triggered via Enter/Space.</p>
+      </div>
+    </div>
+
+    <div class="finding-card">
+      <div class="finding-header">
+        <span class="severity-badge severity-critical">Critical</span>
+        <span class="finding-title">WCAG 1.4.3: Color Contrast Failures</span>
+      </div>
+      <div class="finding-body">
+        <p>Multiple text elements fail the minimum 4.5:1 contrast ratio required for WCAG AA compliance:</p>
+        <table>
+          <thead>
+            <tr><th>Element</th><th>Mode</th><th>Foreground</th><th>Background</th><th>Ratio</th><th>Required</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>--text-muted</code></td><td>Light</td><td>#94a3b8</td><td>#ffffff</td><td>2.5:1</td><td>4.5:1 ❌</td></tr>
+            <tr><td><code>--text-muted</code></td><td>Dark</td><td>#64748b</td><td>#0f111f</td><td>2.8:1</td><td>4.5:1 ❌</td></tr>
+            <tr><td><code>--primary</code></td><td>Light</td><td>#6366f1</td><td>#ffffff</td><td>4.0:1</td><td>4.5:1 ❌</td></tr>
+          </tbody>
+        </table>
+        <p>Subtitles, progress metrics, and description text are unreadable for users with moderate low vision.</p>
+      </div>
+    </div>
+
+    <div class="finding-card">
+      <div class="finding-header">
+        <span class="severity-badge severity-low">Low</span>
+        <span class="finding-title">WCAG 1.1.1: Missing Alt Text</span>
+      </div>
+      <div class="finding-body">
+        <p>The student avatar image in the Scholar Profile card (<code>index.html</code> line 1514) lacks a descriptive <code>alt</code> attribute. Screen readers will announce the raw Unsplash image URL instead.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- SECTION 7: INTERACTION DESIGN            -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">Section 07</div>
+    <h2 class="section-title">Interaction Design & Micro-animations</h2>
+    <hr class="section-rule">
+
+    <div class="finding-card">
+      <div class="finding-header">
+        <span class="severity-badge severity-high">High</span>
+        <span class="finding-title">Missing Touch Events on Mobile Canvas</span>
+      </div>
+      <div class="finding-body">
+        <p>The interactive canvas roadmaps in the Knowledge Engine handle <code>mousedown</code>, <code>mousemove</code>, and <code>mouseup</code> events, but lack equivalent touch event listeners (<code>touchstart</code>, <code>touchmove</code>, <code>touchend</code>).</p>
+        <p>The click-and-drag physics for roadmap nodes is completely <strong>non-functional on mobile devices and tablets</strong>.</p>
+      </div>
+    </div>
+
+    <div class="finding-card">
+      <div class="finding-header">
+        <span class="severity-badge severity-medium">Medium</span>
+        <span class="finding-title">Native Blocking Alert Dialogs</span>
+      </div>
+      <div class="finding-body">
+        <p>Copying mnemonic notes triggers a native browser <code>alert()</code> modal. This breaks the premium glassmorphic visual aesthetic, pauses the entire rendering thread, and forces a jarring modal interaction inconsistent with the platform's design language.</p>
+        <div class="finding-label">Recommendation</div>
+        <p>Replace all <code>alert()</code> calls with a custom non-blocking toast notification component styled with the platform's glassmorphic design tokens.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- SECTION 8: COMPETITIVE BENCHMARKING      -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">Section 08</div>
+    <h2 class="section-title">Competitive Benchmarking</h2>
+    <hr class="section-rule">
+
+    <p>Issac is benchmarked against leading medical learning platforms to identify competitive gaps and differentiation opportunities.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Amboss</th>
+          <th>Osmosis</th>
+          <th>Issac (Current)</th>
+          <th>Issac (Proposed)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Visual Aesthetics</strong></td>
+          <td>Standard</td>
+          <td>Cartoon/Flat</td>
+          <td style="color: var(--success); font-weight: 600;">Glassmorphism ✦</td>
+          <td style="color: var(--success); font-weight: 600;">Glassmorphism ✦</td>
+        </tr>
+        <tr>
+          <td><strong>Simulation Realism</strong></td>
+          <td style="color: var(--success); font-weight: 600;">High (Adaptive)</td>
+          <td>Low (Linear MCQs)</td>
+          <td style="color: var(--danger); font-weight: 600;">Broken (Cheat sheet)</td>
+          <td style="color: var(--success); font-weight: 600;">High (Locked cards)</td>
+        </tr>
+        <tr>
+          <td><strong>Keyboard a11y</strong></td>
+          <td style="color: var(--success);">Compliant ✓</td>
+          <td style="color: var(--success);">Compliant ✓</td>
+          <td style="color: var(--danger); font-weight: 600;">Non-functional ✗</td>
+          <td style="color: var(--success);">Compliant ✓</td>
+        </tr>
+        <tr>
+          <td><strong>Theme Flexibility</strong></td>
+          <td>Light/Dark</td>
+          <td>Light/Dark</td>
+          <td style="color: var(--danger); font-weight: 600;">Broken hover bug</td>
+          <td style="color: var(--success);">Flawless ✓</td>
+        </tr>
+        <tr>
+          <td><strong>Mobile Touch</strong></td>
+          <td style="color: var(--success);">Dedicated Apps</td>
+          <td style="color: var(--success);">Responsive Web</td>
+          <td style="color: var(--warning); font-weight: 600;">Broken canvas</td>
+          <td style="color: var(--success);">Touch gestures ✓</td>
+        </tr>
+        <tr>
+          <td><strong>Content Depth</strong></td>
+          <td style="color: var(--success); font-weight: 600;">40K+ Articles</td>
+          <td>Video-first</td>
+          <td>9 Topics + Generator</td>
+          <td>Scalable DB</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-success">
+      <div class="callout-title">Competitive Advantage</div>
+      <p>Issac's <strong>glassmorphic design language</strong> and <strong>interactive SVG anatomy diagrams</strong> are significant visual differentiators that no competitor currently offers. With the simulator learning loop restored and accessibility fixed, Issac can claim best-in-class simulation and design.</p>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- SECTION 9: ROADMAP                       -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">Section 09</div>
+    <h2 class="section-title">Prioritized Recommendations & Strategic Roadmap</h2>
+    <hr class="section-rule">
+
+    <!-- Phase 1 -->
+    <div class="phase-card phase-card-1">
+      <div class="phase-title" style="color: var(--danger);">Phase 1: Quick Wins — Immediate Deployment</div>
+      <div class="phase-desc">High-impact CSS and HTML fixes that require no architectural changes. Deployable within 1–2 days.</div>
+
+      <div class="rec-item">
+        <div class="rec-item-title">1. Fix Light Mode Button Hover Contrast</div>
+        <div class="rec-item-body">Add <code>body:not(.dark-mode) .btn-outline:hover</code> override to set <code>color: var(--primary)</code> and <code>border-color: var(--primary)</code> instead of white-on-white.</div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-item-title">2. Remove Duplicate Selector in Concept Compare</div>
+        <div class="rec-item-body">Delete <code>#compare-select-2</code> and the "with" label from <code>index.html</code>. Relabel selector to "Select Comparison Pair:". Matches the actual JS data model.</div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-item-title">3. Add Bookmark Button Active Styling</div>
+        <div class="rec-item-body">Define <code>.bookmark-btn.active</code> in CSS with <code>background: var(--primary-glow); color: var(--primary); border-color: var(--primary)</code> to provide immediate visual feedback.</div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-item-title">4. Fix Text Muted Contrast Ratios</div>
+        <div class="rec-item-body">Adjust <code>--text-muted</code>: Light mode → <code>#64748b</code> (4.6:1 ratio). Dark mode → <code>#94a3b8</code> (4.8:1 ratio). Achieves WCAG AA compliance.</div>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase-card phase-card-2">
+      <div class="phase-title" style="color: #b45309;">Phase 2: Core Usability Improvements — Sprint 1–2</div>
+      <div class="phase-desc">Structural layout and logic changes that restore educational value and basic accessibility.</div>
+
+      <div class="rec-item">
+        <div class="rec-item-title">1. Redesign Case Simulator Layout Cockpit</div>
+        <div class="rec-item-body">Split the screen: Chat Simulator on the left, Patient Case File cards on the right. Move static reference cards into collapsible tabs to balance column heights.</div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-item-title">2. Restore Locked/Blurred Card Progression</div>
+        <div class="rec-item-body">Re-enable lock overlays for the patient file stack. Start with only the Patient Summary visible. Progressively unlock Differentials → Investigations → Management as the user correctly answers each simulation step.</div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-item-title">3. Implement Keyboard Accessibility</div>
+        <div class="rec-item-body">Add <code>tabindex="0"</code> and <code>role="button"</code> to all <code>.sidebar-item</code> elements and SVG <code>.svg-hotspot</code> groups. Bind keydown listeners to trigger click actions on Enter/Space.</div>
+      </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- Phase 3 -->
+    <div class="phase-card phase-card-3">
+      <div class="phase-title" style="color: var(--primary);">Phase 3: Strategic UX Enhancements — Roadmap</div>
+      <div class="phase-desc">Architectural improvements for scalability, mobile excellence, and design system maturity.</div>
+
+      <div class="rec-item">
+        <div class="rec-item-title">1. Consolidate Navigation Architecture</div>
+        <div class="rec-item-body">Unify 14 sidebar items into 5 primary workspace hubs: Dashboard, Learning Engine, AI Workspace, Simulation Labs, Creator Studio. Nest contextual widgets within parent hubs.</div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-item-title">2. Implement Mobile Touch Support</div>
+        <div class="rec-item-body">Map <code>touchstart</code>, <code>touchmove</code>, and <code>touchend</code> events in the Knowledge Engine canvas to support node dragging on tablets and mobile devices.</div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-item-title">3. Replace Native Alerts with Toast Notifications</div>
+        <div class="rec-item-body">Implement a non-blocking, glassmorphic toast notification component for "Copied to clipboard!", "Topic Bookmarked!", and error feedback messages.</div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-item-title">4. Eliminate Inline Style Design Debt</div>
+        <div class="rec-item-body">Migrate all inline style overrides into the CSS design system. Create semantic badge variants (<code>.badge-primary</code>, <code>.badge-accent</code>) to replace ad-hoc inline color overrides.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- SECTION 10: CHECKLIST                    -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">Section 10</div>
+    <h2 class="section-title">Implementation Checklist</h2>
+    <hr class="section-rule">
+
+    <p>A comprehensive checklist for designers, developers, and product stakeholders to track remediation progress.</p>
+
+    <h3 style="color: var(--danger);">Phase 1 — Quick Wins</h3>
+    <ul class="checklist">
+      <li><div class="check-box"></div><span>CSS override for <code>.btn-outline:hover</code> to fix white-on-white text bug in Light Mode</span></li>
+      <li><div class="check-box"></div><span>Remove duplicate select box <code>#compare-select-2</code> from the Concept Comparison panel</span></li>
+      <li><div class="check-box"></div><span>Add active visual state for <code>.bookmark-btn.active</code> to provide bookmarking feedback</span></li>
+      <li><div class="check-box"></div><span>Adjust <code>--text-muted</code> color values for WCAG AA contrast compliance</span></li>
+    </ul>
+
+    <h3 style="color: #b45309;">Phase 2 — Core Usability</h3>
+    <ul class="checklist">
+      <li><div class="check-box"></div><span>Redesign Case Simulator layout: Chat on left, Patient File on right</span></li>
+      <li><div class="check-box"></div><span>Restore locked/blurred card progression in the Clinical Case Simulator</span></li>
+      <li><div class="check-box"></div><span>Add <code>tabindex="0"</code> and keyboard listeners to sidebar navigation items</span></li>
+      <li><div class="check-box"></div><span>Add <code>tabindex="0"</code> and keyboard listeners to SVG interactive hotspots</span></li>
+      <li><div class="check-box"></div><span>Remove legacy <code>panel-concept-maps</code> dead-end panel</span></li>
+    </ul>
+
+    <h3 style="color: var(--primary);">Phase 3 — Strategic Enhancements</h3>
+    <ul class="checklist">
+      <li><div class="check-box"></div><span>Consolidate 14 sidebar items into 5 navigation hubs</span></li>
+      <li><div class="check-box"></div><span>Add touch gesture support (<code>touchstart</code>/<code>touchmove</code>) to Knowledge Engine canvas</span></li>
+      <li><div class="check-box"></div><span>Build and integrate glassmorphic toast notification component</span></li>
+      <li><div class="check-box"></div><span>Migrate all inline style overrides into CSS design system classes</span></li>
+      <li><div class="check-box"></div><span>Add descriptive <code>alt</code> attributes to all avatar and decorative images</span></li>
+    </ul>
+
+    <div style="margin-top: 40px; padding: 20px; background: var(--bg-muted); border-radius: 12px; text-align: center;">
+      <p style="font-size: 9pt; color: var(--text-muted); margin-bottom: 4px;">End of Audit Report</p>
+      <p style="font-size: 10pt; font-weight: 700; color: var(--text); margin: 0;">Issac Healthcare AI Platform — UI/UX Audit & Strategic Roadmap</p>
+      <p style="font-size: 8pt; color: var(--text-muted); margin-top: 4px;">Prepared June 2026 · Confidential</p>
+    </div>
+  </div>
+
+</body>
+</html>

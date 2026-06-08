@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ISSAC OS — Plans & Upgrade</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    {
+      const theme = localStorage.getItem('theme') || 'auto';
+      if (theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+      }
+    }
+  </script>
+</head>
+<body class="os-body">
+
+  <div class="os-container">
+    <!-- Left Sidebar Nav -->
+    <aside class="os-sidebar">
+      <div>
+        <a href="index.html" class="os-sidebar-logo">
+          <svg class="nav-logo-icon" width="24" height="24" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="brainGradSidebar" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#3b82f6"/>
+                <stop offset="50%" stop-color="#6366f1"/>
+                <stop offset="100%" stop-color="#8b5cf6"/>
+              </linearGradient>
+            </defs>
+            <path d="M18 10C14 10 11 12 11 15.5C11 17 12 18 13 18.5C12.5 19.5 12.5 21 13.5 22C14.5 23 16 23 18 23" stroke="url(#brainGradSidebar)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M18 10C22 10 25 12 25 15.5C25 17 24 18 23 18.5C23.5 19.5 23.5 21 22.5 22C21.5 23 20 23 18 23" stroke="url(#brainGradSidebar)" stroke-width="2" stroke-linecap="round"/>
+            <line x1="18" y1="10" x2="18" y2="23" stroke="url(#brainGradSidebar)" stroke-width="2"/>
+            <circle cx="14" cy="13" r="1.5" fill="#6366f1"/>
+            <circle cx="22" cy="13" r="1.5" fill="#6366f1"/>
+            <circle cx="12" cy="17" r="1" fill="#3b82f6"/>
+            <circle cx="24" cy="17" r="1" fill="#3b82f6"/>
+            <circle cx="15" cy="21" r="1.5" fill="#8b5cf6"/>
+            <circle cx="21" cy="21" r="1.5" fill="#8b5cf6"/>
+            <line x1="14" y1="13" x2="12" y2="17" stroke="#6366f1" stroke-width="0.75"/>
+            <line x1="22" y1="13" x2="24" y2="17" stroke="#6366f1" stroke-width="0.75"/>
+            <line x1="12" y1="17" x2="15" y2="21" stroke="#3b82f6" stroke-width="0.75"/>
+            <line x1="24" y1="17" x2="21" y2="21" stroke="#3b82f6" stroke-width="0.75"/>
+          </svg>
+          <span class="nav-logo-text">ISSAC</span>
+        </a>
+
+        <nav class="sidebar-nav">
+          <a href="dashboard.html" class="sidebar-link" id="nav-dashboard">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Dashboard
+          </a>
+          <a href="ai-mentor.html" class="sidebar-link" id="nav-ai-mentor">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            ISSAC AI Mentor
+          </a>
+          <a href="simulator.html" class="sidebar-link" id="nav-simulator">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Case Simulator
+          </a>
+          <a href="assessments.html" class="sidebar-link" id="nav-assessments">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            Assessments
+          </a>
+          <a href="knowledge-map.html" class="sidebar-link" id="nav-knowledge-map">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="5" cy="5" r="3"/><circle cx="19" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><line x1="7.1" y1="7.1" x2="9.9" y2="9.9"/><line x1="16.9" y1="7.1" x2="14.1" y2="9.9"/><line x1="7.1" y1="16.9" x2="9.9" y2="14.1"/><line x1="16.9" y1="16.9" x2="14.1" y2="14.1"/></svg>
+            Knowledge Map
+          </a>
+          <a href="career.html" class="sidebar-link" id="nav-career">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            Clinical Portfolio
+          </a>
+          <a href="faculty.html" class="sidebar-link" id="nav-faculty">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+            Faculty Console
+          </a>
+          <a href="pricing.html" class="sidebar-link active" id="nav-pricing">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Upgrade to Pro
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <a href="profile.html" class="sidebar-user" style="display: flex; text-decoration: none; color: inherit;">
+        <div class="sidebar-user-avatar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div class="sidebar-user-info">
+          <span class="sidebar-user-name">Dr. Sravya</span>
+          <span class="sidebar-user-rank">Level 12 · Resident</span>
+        </div>
+      </a>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="os-main">
+      <header class="os-header" style="flex-direction: column; align-items: center; text-align: center; gap: 0.75rem;">
+        <h1 class="os-title">Choose Your Medical Learning OS Tier</h1>
+        <p class="os-subtitle-desc">Start free. Upgrade to unlock clinical simulator branching files and full AI mentorship metrics.</p>
+        
+        <!-- Toggle Monthly / Yearly switch -->
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-top: 1rem;">
+          <span style="font-size: 0.875rem; font-weight: 600;">Monthly Billing</span>
+          <button class="pricing-toggle" id="billingToggle" style="width: 50px; height: 26px; background: var(--ev-border); border-radius: 9999px; position: relative; padding: 3px; transition: background var(--duration-fast);">
+            <div style="width: 20px; height: 20px; background: white; border-radius: 50%; box-shadow: var(--shadow-sm); position: absolute; left: 3px; transition: left var(--duration-fast);" id="toggleKnob"></div>
+          </button>
+          <span style="font-size: 0.875rem; font-weight: 600; display: flex; align-items: center; gap: 0.375rem;">
+            Yearly Billing
+            <span style="background: #ecfdf5; border: 1px solid var(--ev-emerald); color: var(--ev-emerald); font-size: 0.6875rem; font-weight: 700; padding: 0.125rem 0.375rem; border-radius: var(--radius-full);">Save 20%</span>
+          </span>
+        </div>
+      </header>
+
+      <!-- Pricing Plans matrix grid -->
+      <section class="pricing-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem;">
+        
+        <!-- Tier 1: Explorer -->
+        <div class="pricing-card" style="padding: 1.5rem;">
+          <span class="pricing-plan" style="font-family: var(--font-display); font-weight: 700; color: var(--ev-text-sub);">Explorer</span>
+          <div class="pricing-amount" style="font-size: 1.75rem; margin-block: 1rem;">Free</div>
+          <ul class="pricing-features" style="font-size: 0.8125rem; display: flex; flex-direction: column; gap: 0.5rem; text-align: left; margin-bottom: 1.5rem;">
+            <li>✓ 5 topics per month</li>
+            <li>✓ Basic AI chat</li>
+            <li>✓ 3 clinical cases</li>
+            <li class="muted">✗ Portfolio tools</li>
+            <li class="muted">✗ Custom maps</li>
+          </ul>
+          <button class="pricing-cta select-tier-btn" data-plan="Explorer" data-price="0" style="padding: 0.5rem 1rem; width: auto; font-size: 0.8125rem;">Current Plan</button>
+        </div>
+
+        <!-- Tier 2: Student Pro -->
+        <div class="pricing-card" style="padding: 1.5rem;">
+          <span class="pricing-plan" style="font-family: var(--font-display); font-weight: 700; color: var(--ev-blue-600);">Student Pro</span>
+          <div class="pricing-amount" style="font-size: 1.75rem; margin-block: 1rem;"><span class="price-val" data-monthly="299" data-yearly="239">₹299</span><span style="font-size: 0.8125rem; font-weight: normal; color: var(--ev-text-muted);">/mo</span></div>
+          <ul class="pricing-features" style="font-size: 0.8125rem; display: flex; flex-direction: column; gap: 0.5rem; text-align: left; margin-bottom: 1.5rem;">
+            <li>✓ Unlimited topics</li>
+            <li>✓ Full AI mentor</li>
+            <li>✓ All clinical simulations</li>
+            <li>✓ Revision engine</li>
+            <li class="muted">✗ Portfolio tools</li>
+          </ul>
+          <button class="pricing-cta select-tier-btn" data-plan="Student Pro" data-price="299" style="padding: 0.5rem 1rem; width: auto; font-size: 0.8125rem;">Start Free Trial</button>
+        </div>
+
+        <!-- Tier 3: Resident Pro (Popular) -->
+        <div class="pricing-card popular" style="padding: 1.5rem; transform: scale(1.03); border-color: var(--ev-blue-500);">
+          <span class="pricing-popular-badge" style="background: transparent; border: 1.5px solid white; color: white; font-weight: 800; text-transform: uppercase; font-size: 0.6875rem; letter-spacing: 0.05em; padding: 0.125rem 0.5rem; border-radius: var(--radius-full); display: inline-block; margin-bottom: 0.5rem;">Most Popular</span>
+          <span class="pricing-plan" style="font-family: var(--font-display); font-weight: 700; color: white;">Resident Pro</span>
+          <div class="pricing-amount" style="font-size: 2rem; margin-block: 1rem; color: white;"><span class="price-val" data-monthly="499" data-yearly="399">₹499</span><span style="font-size: 0.8125rem; font-weight: normal; color: var(--ev-blue-200);">/mo</span></div>
+          <ul class="pricing-features" style="font-size: 0.8125rem; display: flex; flex-direction: column; gap: 0.5rem; text-align: left; margin-bottom: 1.5rem; color: var(--ev-blue-50);">
+            <li>✓ All Student Pro features</li>
+            <li>✓ Portfolio builder</li>
+            <li>✓ Advanced analytics</li>
+            <li>✓ Peer challenges</li>
+            <li>✓ Digital certificates</li>
+          </ul>
+          <button class="pricing-cta select-tier-btn popular-cta" data-plan="Resident Pro" data-price="499" style="padding: 0.5rem 1.25rem; width: auto; background: white; color: var(--ev-blue-600); border: none; font-size: 0.8125rem;">Start Free Trial</button>
+        </div>
+
+        <!-- Tier 4: Elite Clinician -->
+        <div class="pricing-card" style="padding: 1.5rem;">
+          <span class="pricing-plan" style="font-family: var(--font-display); font-weight: 700; color: var(--ev-violet);">Elite Clinician</span>
+          <div class="pricing-amount" style="font-size: 1.75rem; margin-block: 1rem;"><span class="price-val" data-monthly="799" data-yearly="639">₹799</span><span style="font-size: 0.8125rem; font-weight: normal; color: var(--ev-text-muted);">/mo</span></div>
+          <ul class="pricing-features" style="font-size: 0.8125rem; display: flex; flex-direction: column; gap: 0.5rem; text-align: left; margin-bottom: 1.5rem;">
+            <li>✓ All Resident Pro features</li>
+            <li>✓ 1-on-1 AI coaching</li>
+            <li>✓ Research log tracker</li>
+            <li>✓ Readiness metrics</li>
+          </ul>
+          <button class="pricing-cta select-tier-btn" data-plan="Elite Clinician" data-price="799" style="padding: 0.5rem 1.25rem; width: auto; background: var(--ev-violet); border-color: var(--ev-violet); color: white; font-size: 0.8125rem;">Start Free Trial</button>
+        </div>
+
+        <!-- Tier 5: Institution -->
+        <div class="pricing-card" style="padding: 1.5rem;">
+          <span class="pricing-plan" style="font-family: var(--font-display); font-weight: 700; color: var(--ev-text-sub);">Institution</span>
+          <div class="pricing-amount" style="font-size: 1.75rem; margin-block: 1rem;">Custom</div>
+          <ul class="pricing-features" style="font-size: 0.8125rem; display: flex; flex-direction: column; gap: 0.5rem; text-align: left; margin-bottom: 1.5rem;">
+            <li>✓ All Elite features</li>
+            <li>✓ Faculty dashboard</li>
+            <li>✓ White-label cohorts</li>
+            <li>✓ SSO integrations</li>
+          </ul>
+          <button class="pricing-cta select-tier-btn" data-plan="Institution" data-price="custom" style="padding: 0.5rem 1rem; width: auto; font-size: 0.8125rem;">Contact Sales</button>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <!-- Secure Checkout Modal Overlay -->
+  <div class="checkout-modal" id="checkoutModal">
+    <div class="checkout-sheet">
+      <span class="checkout-close-btn" id="checkoutClose">×</span>
+      <h3 class="os-card-title" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--ev-emerald);"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span>Secure Stripe Checkout</span>
+      </h3>
+      <p class="os-subtitle-desc" style="margin-top: -0.5rem;">Upgrade plan to: <strong id="checkoutPlanName">Resident Pro</strong> (<span id="checkoutPlanPrice">₹499/mo</span>)</p>
+
+      <form id="checkoutForm" onsubmit="event.preventDefault(); return false;" style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="form-group">
+          <label>Cardholder Name</label>
+          <input type="text" class="form-input" placeholder="Dr. Sravya" required>
+        </div>
+        <div class="form-group">
+          <label>Card Number</label>
+          <input type="text" class="form-input" placeholder="4242 •••• •••• 4242" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Expiration Date</label>
+            <input type="text" class="form-input" placeholder="MM / YY" required>
+          </div>
+          <div class="form-group">
+            <label>CVC / CVV</label>
+            <input type="text" class="form-input" placeholder="•••" required>
+          </div>
+        </div>
+        <button class="btn-primary" type="button" id="payBtn" style="padding: 0.75rem; font-weight: 700; margin-top: 0.5rem;">Confirm Upgrade Payment</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const billingToggle = document.getElementById('billingToggle');
+      const toggleKnob = document.getElementById('toggleKnob');
+      const priceVals = document.querySelectorAll('.price-val');
+      const selectBtns = document.querySelectorAll('.select-tier-btn');
+      
+      const modal = document.getElementById('checkoutModal');
+      const closeBtn = document.getElementById('checkoutClose');
+      const planName = document.getElementById('checkoutPlanName');
+      const planPrice = document.getElementById('checkoutPlanPrice');
+      const payBtn = document.getElementById('payBtn');
+      const checkoutForm = document.getElementById('checkoutForm');
+
+      let isYearly = false;
+
+      // 1. Billing toggle mechanics
+      billingToggle.addEventListener('click', () => {
+        isYearly = !isYearly;
+        
+        if (isYearly) {
+          billingToggle.style.background = 'var(--ev-emerald)';
+          toggleKnob.style.left = '27px';
+          priceVals.forEach(val => {
+            val.textContent = '₹' + val.dataset.yearly;
+          });
+        } else {
+          billingToggle.style.background = 'var(--ev-border)';
+          toggleKnob.style.left = '3px';
+          priceVals.forEach(val => {
+            val.textContent = '₹' + val.dataset.monthly;
+          });
+        }
+      });
+
+      // 2. Checkout Modal Launch
+      selectBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const plan = btn.dataset.plan;
+          const price = btn.dataset.price;
+          
+          if (price === "0" || price === "custom") {
+            alert(price === "0" ? "You are already on the Explorer tier!" : "Redirecting to Institution sales contact form...");
+            return;
+          }
+
+          planName.textContent = plan;
+          
+          const currentPrice = isYearly 
+            ? '₹' + btn.closest('.pricing-card').querySelector('.price-val').dataset.yearly + '/mo (Billed Annually)'
+            : '₹' + btn.closest('.pricing-card').querySelector('.price-val').dataset.monthly + '/mo';
+          
+          planPrice.textContent = currentPrice;
+          modal.classList.add('active');
+        });
+      });
+
+      // 3. Modal closure
+      const closeModal = () => modal.classList.remove('active');
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      // 4. Payment complete simulation
+      payBtn.addEventListener('click', () => {
+        payBtn.textContent = "Processing Secure Payment...";
+        payBtn.disabled = true;
+
+        setTimeout(() => {
+          alert("Success! Your ISSAC Medical Learning OS subscription has been upgraded to " + planName.textContent + ".\n\nEnjoy the full clinical toolkit!");
+          payBtn.textContent = "Confirm Upgrade Payment";
+          payBtn.disabled = false;
+          closeModal();
+        }, 1500);
+      });
+    });
+  </script>
+</body>
+</html>

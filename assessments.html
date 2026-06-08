@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ISSAC OS — Assessments & Credentials</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    {
+      const theme = localStorage.getItem('theme') || 'auto';
+      if (theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+      }
+    }
+  </script>
+</head>
+<body class="os-body">
+
+  <div class="os-container">
+    <!-- Left Sidebar Nav -->
+    <aside class="os-sidebar">
+      <div>
+        <a href="index.html" class="os-sidebar-logo">
+          <svg class="nav-logo-icon" width="24" height="24" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="brainGradSidebar" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#3b82f6"/>
+                <stop offset="50%" stop-color="#6366f1"/>
+                <stop offset="100%" stop-color="#8b5cf6"/>
+              </linearGradient>
+            </defs>
+            <path d="M18 10C14 10 11 12 11 15.5C11 17 12 18 13 18.5C12.5 19.5 12.5 21 13.5 22C14.5 23 16 23 18 23" stroke="url(#brainGradSidebar)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M18 10C22 10 25 12 25 15.5C25 17 24 18 23 18.5C23.5 19.5 23.5 21 22.5 22C21.5 23 20 23 18 23" stroke="url(#brainGradSidebar)" stroke-width="2" stroke-linecap="round"/>
+            <line x1="18" y1="10" x2="18" y2="23" stroke="url(#brainGradSidebar)" stroke-width="2"/>
+            <circle cx="14" cy="13" r="1.5" fill="#6366f1"/>
+            <circle cx="22" cy="13" r="1.5" fill="#6366f1"/>
+            <circle cx="12" cy="17" r="1" fill="#3b82f6"/>
+            <circle cx="24" cy="17" r="1" fill="#3b82f6"/>
+            <circle cx="15" cy="21" r="1.5" fill="#8b5cf6"/>
+            <circle cx="21" cy="21" r="1.5" fill="#8b5cf6"/>
+            <line x1="14" y1="13" x2="12" y2="17" stroke="#6366f1" stroke-width="0.75"/>
+            <line x1="22" y1="13" x2="24" y2="17" stroke="#6366f1" stroke-width="0.75"/>
+            <line x1="12" y1="17" x2="15" y2="21" stroke="#3b82f6" stroke-width="0.75"/>
+            <line x1="24" y1="17" x2="21" y2="21" stroke="#3b82f6" stroke-width="0.75"/>
+          </svg>
+          <span class="nav-logo-text">ISSAC</span>
+        </a>
+
+        <nav class="sidebar-nav">
+          <a href="dashboard.html" class="sidebar-link" id="nav-dashboard">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Dashboard
+          </a>
+          <a href="ai-mentor.html" class="sidebar-link" id="nav-ai-mentor">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            ISSAC AI Mentor
+          </a>
+          <a href="simulator.html" class="sidebar-link" id="nav-simulator">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Case Simulator
+          </a>
+          <a href="assessments.html" class="sidebar-link active" id="nav-assessments">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            Assessments
+          </a>
+          <a href="knowledge-map.html" class="sidebar-link" id="nav-knowledge-map">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="5" cy="5" r="3"/><circle cx="19" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><line x1="7.1" y1="7.1" x2="9.9" y2="9.9"/><line x1="16.9" y1="7.1" x2="14.1" y2="9.9"/><line x1="7.1" y1="16.9" x2="9.9" y2="14.1"/><line x1="16.9" y1="16.9" x2="14.1" y2="14.1"/></svg>
+            Knowledge Map
+          </a>
+          <a href="career.html" class="sidebar-link" id="nav-career">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            Clinical Portfolio
+          </a>
+          <a href="faculty.html" class="sidebar-link" id="nav-faculty">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+            Faculty Console
+          </a>
+          <a href="pricing.html" class="sidebar-link" id="nav-pricing">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Upgrade to Pro
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <a href="profile.html" class="sidebar-user" style="display: flex; text-decoration: none; color: inherit;">
+        <div class="sidebar-user-avatar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div class="sidebar-user-info">
+          <span class="sidebar-user-name">Dr. Sravya</span>
+          <span class="sidebar-user-rank">Level 12 · Resident</span>
+        </div>
+      </a>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="os-main">
+      <header class="os-header">
+        <div>
+          <h1 class="os-title">Assessments & Certifications</h1>
+          <p class="os-subtitle-desc">Challenge yourself with adaptive clinical exams, trace your subject readiness trends, and track CME-eligible credentials.</p>
+        </div>
+      </header>
+
+      <!-- Main Layout Grid -->
+      <div class="os-grid-2-1">
+        
+        <!-- Left Column: Testing Center, Analytics, and AI Feedback -->
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          
+          <!-- Section 1: Adaptive Exams Workspace -->
+          <section class="os-card" style="gap: 1.25rem;">
+            <div>
+              <h3 class="os-card-title">Adaptive Examination Center</h3>
+              <p class="os-subtitle-desc">AI-generated modular tests that adjust question difficulty dynamically to isolate and repair knowledge limits.</p>
+            </div>
+
+            <!-- Subject-wise assessments lists -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div style="border: 1px solid var(--ev-border); border-radius: var(--radius-md); padding: 1rem; background: var(--ev-surface-elevated); display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <span style="font-weight: 700; font-size: 0.875rem;">Cardiovascular Board Prep</span>
+                    <span style="font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; background: rgba(59, 130, 246, 0.1); color: var(--ev-blue-600); font-weight: 600;">Adaptive</span>
+                  </div>
+                  <p style="font-size: 0.75rem; color: var(--ev-text-sub); line-height: 1.4; margin-bottom: 1rem;">Covers ECG diagnostics, hemodynamics, valve pathologies, and shock treatment protocols.</p>
+                </div>
+                <button class="btn-primary" style="padding: 0.5rem; font-size: 0.75rem; width: 100%; border-radius: 4px; text-align: center;" onclick="alert('Starting Adaptive Cardiovascular Exam...')">Start Assessment</button>
+              </div>
+
+              <div style="border: 1px solid var(--ev-border); border-radius: var(--radius-md); padding: 1rem; background: var(--ev-surface-elevated); display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <span style="font-weight: 700; font-size: 0.875rem;">Pulmonology & ABG Staging</span>
+                    <span style="font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; background: rgba(59, 130, 246, 0.1); color: var(--ev-blue-600); font-weight: 600;">Adaptive</span>
+                  </div>
+                  <p style="font-size: 0.75rem; color: var(--ev-text-sub); line-height: 1.4; margin-bottom: 1rem;">Covers mixed acid-base abnormalities, ventilator dynamics, and interstitial lung diseases.</p>
+                </div>
+                <button class="btn-primary" style="padding: 0.5rem; font-size: 0.75rem; width: 100%; border-radius: 4px; text-align: center;" onclick="alert('Starting Adaptive Pulmonology Exam...')">Start Assessment</button>
+              </div>
+            </div>
+
+            <!-- Exam Mock Board Section -->
+            <div style="border-top: 1px solid var(--ev-border); padding-top: 1.25rem;">
+              <h4 style="font-size: 0.875rem; font-weight: 700; color: var(--ev-text); margin-bottom: 0.75rem;">National Board Mock Examinations</h4>
+              <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; border: 1px solid var(--ev-border); border-radius: var(--radius-md); background: var(--ev-bg);">
+                  <div style="display: flex; flex-direction: column;">
+                    <span style="font-weight: 600; font-size: 0.8125rem;">USMLE Step 1 - Full Mock Staging</span>
+                    <span style="font-size: 0.6875rem; color: var(--ev-text-muted);">280 Questions · 8 hours · Simulated breaks</span>
+                  </div>
+                  <button class="btn-hero-secondary" style="padding: 0.375rem 0.75rem; font-size: 0.75rem; border-radius: 4px;" onclick="alert('Initializing USMLE Step 1 Mock Environment...')">Begin Exam</button>
+                </div>
+
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; border: 1px solid var(--ev-border); border-radius: var(--radius-md); background: var(--ev-bg);">
+                  <div style="display: flex; flex-direction: column;">
+                    <span style="font-weight: 600; font-size: 0.8125rem;">PLAB Part 1 - Clinician Mock</span>
+                    <span style="font-size: 0.6875rem; color: var(--ev-text-muted);">180 SBA Questions · 3 hours</span>
+                  </div>
+                  <button class="btn-hero-secondary" style="padding: 0.375rem 0.75rem; font-size: 0.75rem; border-radius: 4px;" onclick="alert('Initializing PLAB Part 1 Mock Environment...')">Begin Exam</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 2: Analytics & Trends -->
+          <section class="os-card" style="gap: 1.25rem;">
+            <div>
+              <h3 class="os-card-title">Subject Competency Trends</h3>
+              <p class="os-subtitle-desc">Continuous tracing of diagnostic mastery over time across core specialties.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; align-items: center;">
+              <!-- CSS simulated graph visualization -->
+              <div style="display: flex; flex-direction: column; justify-content: flex-end; height: 180px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; height: 150px; border-bottom: 1px solid var(--ev-border); border-left: 1px solid var(--ev-border); padding-left: 0.75rem; padding-bottom: 0.5rem; position: relative;">
+                  
+                  <!-- Grid backdrop lines -->
+                  <div style="position: absolute; left: 0; right: 0; bottom: 25%; border-bottom: 1px dashed var(--ev-border); z-index: 1;"></div>
+                  <div style="position: absolute; left: 0; right: 0; bottom: 50%; border-bottom: 1px dashed var(--ev-border); z-index: 1;"></div>
+                  <div style="position: absolute; left: 0; right: 0; bottom: 75%; border-bottom: 1px dashed var(--ev-border); z-index: 1;"></div>
+
+                  <!-- Trend bars representing Cardiology, Pulmonology, Nephrology, Neurology, Emergency Med -->
+                  <div style="display: flex; flex-direction: column; align-items: center; width: 15%; z-index: 2;">
+                    <div style="height: 123px; width: 100%; background: linear-gradient(to top, var(--ev-blue-500), var(--ev-blue-600)); border-radius: 4px 4px 0 0;"></div>
+                    <span style="font-size: 0.625rem; color: var(--ev-text-muted); margin-top: 0.25rem;">Cardio</span>
+                  </div>
+                  <div style="display: flex; flex-direction: column; align-items: center; width: 15%; z-index: 2;">
+                    <div style="height: 117px; width: 100%; background: linear-gradient(to top, var(--ev-blue-500), var(--ev-blue-600)); border-radius: 4px 4px 0 0;"></div>
+                    <span style="font-size: 0.625rem; color: var(--ev-text-muted); margin-top: 0.25rem;">Pulm</span>
+                  </div>
+                  <div style="display: flex; flex-direction: column; align-items: center; width: 15%; z-index: 2;">
+                    <div style="height: 138px; width: 100%; background: linear-gradient(to top, var(--ev-indigo), #8b5cf6); border-radius: 4px 4px 0 0;"></div>
+                    <span style="font-size: 0.625rem; color: var(--ev-text-muted); margin-top: 0.25rem;">Nephro</span>
+                  </div>
+                  <div style="display: flex; flex-direction: column; align-items: center; width: 15%; z-index: 2;">
+                    <div style="height: 126px; width: 100%; background: linear-gradient(to top, var(--ev-blue-500), var(--ev-blue-600)); border-radius: 4px 4px 0 0;"></div>
+                    <span style="font-size: 0.625rem; color: var(--ev-text-muted); margin-top: 0.25rem;">Neuro</span>
+                  </div>
+                  <div style="display: flex; flex-direction: column; align-items: center; width: 15%; z-index: 2;">
+                    <div style="height: 102px; width: 100%; background: linear-gradient(to top, var(--ev-blue-500), var(--ev-blue-600)); border-radius: 4px 4px 0 0;"></div>
+                    <span style="font-size: 0.625rem; color: var(--ev-text-muted); margin-top: 0.25rem;">ER Med</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Competency Metrics text side -->
+              <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem;">
+                  <span style="color: var(--ev-text-sub);">Peak Mastery (Nephro)</span>
+                  <strong style="color: var(--ev-emerald);">92%</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem;">
+                  <span style="color: var(--ev-text-sub);">Board Prep Average</span>
+                  <strong>83.6%</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem;">
+                  <span style="color: var(--ev-text-sub);">Percentile Rank</span>
+                  <strong style="color: var(--ev-blue-600);">94th</strong>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 3: Weak Area Detection & AI Feedback -->
+          <section class="os-card" style="gap: 1.25rem;">
+            <div>
+              <h3 class="os-card-title">Weak Area Diagnostics & AI Action Plans</h3>
+              <p class="os-subtitle-desc">The ISSAC AI Engine compiles specific areas where you made diagnostics errors, offering direct intervention guidance.</p>
+            </div>
+
+            <div class="roster-table-container">
+              <table class="roster-table" style="min-width: 100%;">
+                <thead>
+                  <tr>
+                    <th>Target Concept</th>
+                    <th>Priority</th>
+                    <th>Diagnostic Trend</th>
+                    <th>AI Intervention Advice</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Mixed Acid-Base Calculator</strong></td>
+                    <td><span style="color: var(--ev-rose); font-weight: 600;">High</span></td>
+                    <td>2/5 Correct</td>
+                    <td style="font-size: 0.75rem; color: var(--ev-text-sub); line-height: 1.4;">
+                      You are over-compensating PaCO2 in metabolic acidosis. Recall Winter's Formula: PaCO2 = (1.5 * HCO3-) + 8 ± 2. Review the tutorial inside the AI Mentor.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>STEMI Mimics (ECG)</strong></td>
+                    <td><span style="color: var(--ev-amber); font-weight: 600;">Medium</span></td>
+                    <td>3/5 Correct</td>
+                    <td style="font-size: 0.75rem; color: var(--ev-text-sub); line-height: 1.4;">
+                      Difficulty separating acute pericarditis (diffuse ST elevation, PR depression) from localized STEMI. Recommend practicing 5 localized STEMI simulation cases.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>Prerenal AKI vs. ATN Staging</strong></td>
+                    <td><span style="color: var(--ev-text-muted);">Low</span></td>
+                    <td>4/5 Correct</td>
+                    <td style="font-size: 0.75rem; color: var(--ev-text-sub); line-height: 1.4;">
+                      Slight delay in calculating Fractional Excretion of Sodium (FeNa). Keep FeNa < 1% for prerenal etiology in mind.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Right Column: Professional Certifications, Credential Verifier, and CME Credits -->
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          
+          <!-- Widget 1: Exam Readiness Indicators -->
+          <section class="os-card" style="gap: 1.25rem;">
+            <div class="os-card-title">Exam Readiness Status</div>
+            
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; font-weight: 600; margin-bottom: 0.375rem;">
+                  <span>USMLE Step 1 Pass Probability</span>
+                  <span style="color: var(--ev-emerald);">96% Probability</span>
+                </div>
+                <div style="height: 8px; background: var(--ev-border); border-radius: 4px; overflow: hidden;">
+                  <div style="width: 96%; height: 100%; background: linear-gradient(90deg, var(--ev-blue-500), var(--ev-emerald)); border-radius: 4px;"></div>
+                </div>
+              </div>
+
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; font-weight: 600; margin-bottom: 0.375rem;">
+                  <span>PLAB Part 1 Readiness</span>
+                  <span style="color: var(--ev-blue-600);">88% Staged</span>
+                </div>
+                <div style="height: 8px; background: var(--ev-border); border-radius: 4px; overflow: hidden;">
+                  <div style="width: 88%; height: 100%; background: var(--ev-blue-500); border-radius: 4px;"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Widget 2: Continuing Medical Education (CME) Tracking -->
+          <section class="os-card" style="gap: 1rem; background: linear-gradient(135deg, var(--ev-surface) 0%, var(--ev-surface-sub) 100%);">
+            <div class="os-card-title">Continuing Medical Education (CME)</div>
+            <p class="os-subtitle-desc" style="margin-top: -0.5rem;">Earn certified CME credits through accredited simulator hours and adaptive board mock examinations.</p>
+            
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; border: 1px solid var(--ev-border); border-radius: var(--radius-md); background: var(--ev-surface-elevated);">
+              <div style="display: flex; flex-direction: column;">
+                <span style="font-size: 0.6875rem; text-transform: uppercase; font-weight: 700; color: var(--ev-blue-600);">CME Hours Earned</span>
+                <span style="font-size: 1.5rem; font-weight: 800; color: var(--ev-text); margin-top: 0.25rem;">18.5 / 50</span>
+              </div>
+              <div style="width: 80px; height: 80px; position: relative;">
+                <!-- Circular CSS progress indicator -->
+                <svg viewBox="0 0 36 36" style="width: 100%; height: 100%;">
+                  <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="var(--ev-border)" stroke-width="3"/>
+                  <!-- Dasharray: 37 represents 37% of 100 -->
+                  <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="var(--ev-blue-600)" stroke-width="3" stroke-dasharray="37, 100"/>
+                </svg>
+                <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 0.8125rem; font-weight: 700; color: var(--ev-text);">37%</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Widget 3: Professional Credentials & Certificates -->
+          <section class="os-card" style="gap: 1.25rem;">
+            <div class="os-card-title">Verified Credentials</div>
+            
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              
+              <!-- Credential Item 1 -->
+              <div style="border: 1px solid var(--ev-border); border-radius: var(--radius-md); padding: 1rem; background: var(--ev-surface-elevated); display: flex; flex-direction: column; gap: 0.75rem;">
+                <div style="display: flex; gap: 0.75rem; align-items: center;">
+                  <div style="width: 32px; height: 32px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: var(--ev-emerald); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  </div>
+                  <div style="display: flex; flex-direction: column;">
+                    <span style="font-weight: 700; font-size: 0.8125rem; color: var(--ev-text);">Advanced ECG Interpretation</span>
+                    <span style="font-size: 0.6875rem; color: var(--ev-text-muted);">Credential ID: ISC-4902-ECG</span>
+                  </div>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                  <button class="btn-hero-secondary" style="flex: 1; padding: 0.375rem; font-size: 0.75rem; border-radius: 4px;" onclick="alert('Downloading Certificate PDF...')">Download PDF</button>
+                  <button class="btn-primary" style="flex: 1; padding: 0.375rem; font-size: 0.75rem; border-radius: 4px;" onclick="alert('Credential link copied!')">Copy Link</button>
+                </div>
+              </div>
+
+              <!-- Credential Item 2 -->
+              <div style="border: 1px solid var(--ev-border); border-radius: var(--radius-md); padding: 1rem; background: var(--ev-surface-elevated); display: flex; flex-direction: column; gap: 0.75rem;">
+                <div style="display: flex; gap: 0.75rem; align-items: center;">
+                  <div style="width: 32px; height: 32px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: var(--ev-emerald); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  </div>
+                  <div style="display: flex; flex-direction: column;">
+                    <span style="font-weight: 700; font-size: 0.8125rem; color: var(--ev-text);">ABG Acid-Base Diagnostics</span>
+                    <span style="font-size: 0.6875rem; color: var(--ev-text-muted);">Credential ID: ISC-1120-ABG</span>
+                  </div>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                  <button class="btn-hero-secondary" style="flex: 1; padding: 0.375rem; font-size: 0.75rem; border-radius: 4px;" onclick="alert('Downloading Certificate PDF...')">Download PDF</button>
+                  <button class="btn-primary" style="flex: 1; padding: 0.375rem; font-size: 0.75rem; border-radius: 4px;" onclick="alert('Credential link copied!')">Copy Link</button>
+                </div>
+              </div>
+
+              <!-- Upcoming unlock requirement -->
+              <div style="border: 1px dashed var(--ev-border); border-radius: var(--radius-md); padding: 1rem; text-align: center; background: var(--ev-bg);">
+                <div style="font-size: 0.8125rem; font-weight: 700; color: var(--ev-text-muted); margin-bottom: 0.25rem;">Upcoming Certificate</div>
+                <span style="font-size: 0.75rem; font-weight: 600; color: var(--ev-text-sub);">Pediatric Advanced Resuscitation</span>
+                <p style="font-size: 0.6875rem; color: var(--ev-text-muted); line-height: 1.4; margin-top: 0.5rem;">Requires completing 3 ICU respiratory simulations and achieving > 85% mastery in Pulmonology.</p>
+              </div>
+
+            </div>
+          </section>
+
+
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>
