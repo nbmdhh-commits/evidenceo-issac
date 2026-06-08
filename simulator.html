@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ISSAC OS — Clinical Simulator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    {
+      const theme = localStorage.getItem('theme') || 'auto';
+      if (theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+      }
+    }
+  </script>
+</head>
+<body class="os-body">
+
+  <div class="os-container">
+    <!-- Left Sidebar Nav -->
+    <aside class="os-sidebar">
+      <div>
+        <a href="index.html" class="os-sidebar-logo">
+          <svg class="nav-logo-icon" width="24" height="24" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="brainGradSidebar" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#3b82f6"/>
+                <stop offset="50%" stop-color="#6366f1"/>
+                <stop offset="100%" stop-color="#8b5cf6"/>
+              </linearGradient>
+            </defs>
+            <path d="M18 10C14 10 11 12 11 15.5C11 17 12 18 13 18.5C12.5 19.5 12.5 21 13.5 22C14.5 23 16 23 18 23" stroke="url(#brainGradSidebar)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M18 10C22 10 25 12 25 15.5C25 17 24 18 23 18.5C23.5 19.5 23.5 21 22.5 22C21.5 23 20 23 18 23" stroke="url(#brainGradSidebar)" stroke-width="2" stroke-linecap="round"/>
+            <line x1="18" y1="10" x2="18" y2="23" stroke="url(#brainGradSidebar)" stroke-width="2"/>
+            <circle cx="14" cy="13" r="1.5" fill="#6366f1"/>
+            <circle cx="22" cy="13" r="1.5" fill="#6366f1"/>
+            <circle cx="12" cy="17" r="1" fill="#3b82f6"/>
+            <circle cx="24" cy="17" r="1" fill="#3b82f6"/>
+            <circle cx="15" cy="21" r="1.5" fill="#8b5cf6"/>
+            <circle cx="21" cy="21" r="1.5" fill="#8b5cf6"/>
+            <line x1="14" y1="13" x2="12" y2="17" stroke="#6366f1" stroke-width="0.75"/>
+            <line x1="22" y1="13" x2="24" y2="17" stroke="#6366f1" stroke-width="0.75"/>
+            <line x1="12" y1="17" x2="15" y2="21" stroke="#3b82f6" stroke-width="0.75"/>
+            <line x1="24" y1="17" x2="21" y2="21" stroke="#3b82f6" stroke-width="0.75"/>
+          </svg>
+          <span class="nav-logo-text">ISSAC</span>
+        </a>
+
+        <nav class="sidebar-nav">
+          <a href="dashboard.html" class="sidebar-link" id="nav-dashboard">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Dashboard
+          </a>
+          <a href="ai-mentor.html" class="sidebar-link" id="nav-ai-mentor">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            ISSAC AI Mentor
+          </a>
+          <a href="simulator.html" class="sidebar-link active" id="nav-simulator">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Case Simulator
+          </a>
+          <a href="assessments.html" class="sidebar-link" id="nav-assessments">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            Assessments
+          </a>
+          <a href="knowledge-map.html" class="sidebar-link" id="nav-knowledge-map">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="5" cy="5" r="3"/><circle cx="19" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><line x1="7.1" y1="7.1" x2="9.9" y2="9.9"/><line x1="16.9" y1="7.1" x2="14.1" y2="9.9"/><line x1="7.1" y1="16.9" x2="9.9" y2="14.1"/><line x1="16.9" y1="16.9" x2="14.1" y2="14.1"/></svg>
+            Knowledge Map
+          </a>
+          <a href="career.html" class="sidebar-link" id="nav-career">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            Clinical Portfolio
+          </a>
+          <a href="faculty.html" class="sidebar-link" id="nav-faculty">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+            Faculty Console
+          </a>
+          <a href="pricing.html" class="sidebar-link" id="nav-pricing">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Upgrade to Pro
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <a href="profile.html" class="sidebar-user" style="display: flex; text-decoration: none; color: inherit;">
+        <div class="sidebar-user-avatar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div class="sidebar-user-info">
+          <span class="sidebar-user-name">Dr. Sravya</span>
+          <span class="sidebar-user-rank">Level 12 · Resident</span>
+        </div>
+      </a>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="os-main">
+      <header class="os-header">
+        <div>
+          <h1 class="os-title">Emergency Medicine Simulator</h1>
+          <p class="os-subtitle-desc">Apply your medical knowledge to solve real-world, branching clinical encounters.</p>
+        </div>
+      </header>
+
+      <!-- Patient Vitals Monitor Strip -->
+      <section class="sim-monitor" style="margin-bottom: 1.5rem;">
+        <div class="sim-vital-readout">
+          <span class="sim-vital-label">Heart Rate (HR)</span>
+          <span class="sim-vital-value" id="vital-hr">168 bpm</span>
+        </div>
+        <div class="sim-vital-readout">
+          <span class="sim-vital-label">Blood Pressure (BP)</span>
+          <span class="sim-vital-value" id="vital-bp">90/60 mmHg</span>
+        </div>
+        <div class="sim-vital-readout">
+          <span class="sim-vital-label">SpO2 (Oxygen)</span>
+          <span class="sim-vital-value" id="vital-spo2">93%</span>
+        </div>
+        <div class="sim-vital-readout">
+          <span class="sim-vital-label">Temperature</span>
+          <span class="sim-vital-value">37.2 °C</span>
+        </div>
+        <div class="sim-vital-readout" style="width: 120px;">
+          <span class="sim-vital-label">ECG Rhythm</span>
+          <svg class="sim-vitals-wave" viewBox="0 0 100 40">
+            <!-- Simulated ECG Waveform -->
+            <path d="M0,20 L20,20 L23,10 L26,30 L29,20 L50,20 L53,5 L56,35 L59,20 L80,20 L83,10 L86,30 L90,20 L100,20" fill="none" stroke="#00ff66" stroke-width="2"></path>
+          </svg>
+        </div>
+      </section>
+
+      <!-- Case Workspace Grid -->
+      <div class="os-grid-2-1">
+        
+        <!-- Left: Case narrative and diagnostic visualization -->
+        <section class="os-card" style="gap: 1.25rem;">
+          <div class="os-card-title">
+            <svg class="title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px; vertical-align: text-bottom; margin-right: 6px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Active Patient Case: Chest Pain Workup
+          </div>
+          <div class="sim-case-description">
+            <strong>Patient Presentation:</strong> A 58-year-old male is brought to the ED by ambulance. He reports sudden, crushing substernal chest pain radiating to his left shoulder, which started 45 minutes ago while shoveling snow. He is visibly diaphoretic, nauseous, and complains of shortness of breath.
+          </div>
+
+          <!-- Diagnostic visual element -->
+          <div class="sim-diagnostic-visual">
+            <svg viewBox="0 0 500 180" width="100%" height="auto" style="background: var(--ecg-bg); display: block; border-radius: var(--radius-md);">
+              <!-- ECG Grid lines representation -->
+              <defs>
+                <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                  <path d="M 10 0 L 0 0 0 10" fill="none" stroke="var(--ecg-grid-minor)" stroke-width="0.5"/>
+                </pattern>
+                <pattern id="grid-major" width="50" height="50" patternUnits="userSpaceOnUse">
+                  <rect width="50" height="50" fill="url(#grid)" />
+                  <path d="M 50 0 L 0 0 0 50" fill="none" stroke="var(--ecg-grid-major)" stroke-width="1"/>
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#grid-major)" />
+              
+              <!-- Draw STEMI pattern Waveform -->
+              <path d="M 10,90 L 50,90 L 60,80 L 65,130 L 70,30 L 78,30 L 88,90 L 130,90 L 140,80 L 145,130 L 150,30 L 158,30 L 168,90 L 210,90 L 220,80 L 225,130 L 230,30 L 238,30 L 248,90 L 290,90 L 300,80 L 305,130 L 310,30 L 318,30 L 328,90 L 370,90 L 380,80 L 385,130 L 390,30 L 398,30 L 408,90 L 450,90 L 460,80 L 465,130 L 470,30 L 478,30 L 488,90" fill="none" stroke="var(--ecg-line)" stroke-width="2.5"></path>
+              
+              <!-- Labels -->
+              <text x="20" y="25" fill="var(--ecg-line)" font-family="Outfit" font-size="12" font-weight="bold">Lead II - ST ELEVATION DETECTED</text>
+            </svg>
+            <div class="sim-image-overlay-label">12-Lead ECG strip</div>
+          </div>
+        </section>
+
+        <!-- Right: Actions and feedback -->
+        <section class="os-card" style="gap: 1.25rem;">
+          <div class="os-card-title">
+            <svg class="title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px; vertical-align: text-bottom; margin-right: 6px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
+            Clinical Decision Matrix
+          </div>
+          <p class="os-subtitle-desc" style="margin-top: -0.5rem;">Choose the next immediate intervention. Decisions impact patient stability and clinical performance indicators.</p>
+          
+          <div class="sim-choices-container" id="choicesContainer">
+            <button class="sim-choice-btn" data-correct="false" data-id="1">
+              <span>Administer sublingual Nitroglycerin</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+            <button class="sim-choice-btn" data-correct="true" data-id="2">
+              <span>Administer Aspirin 325 mg (Chewable) & activate Cath Lab</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+            <button class="sim-choice-btn" data-correct="false" data-id="3">
+              <span>Order Chest X-Ray & wait for cardiac Troponins</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+            <button class="sim-choice-btn" data-correct="false" data-id="4">
+              <span>Prepare for immediate Synchronized Cardioversion</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+
+          <!-- Feedback message box -->
+          <div class="sim-feedback-box" id="feedbackBox"></div>
+
+          <!-- Next Stage Action (hidden initially) -->
+          <a href="career.html" class="btn-primary" id="nextCaseBtn" style="display: none; padding: 0.75rem; text-align: center;">
+            Record to Clinical Portfolio
+          </a>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const choices = document.querySelectorAll('.sim-choice-btn');
+      const feedback = document.getElementById('feedbackBox');
+      const nextBtn = document.getElementById('nextCaseBtn');
+      const vitalsHr = document.getElementById('vital-hr');
+      const vitalsBp = document.getElementById('vital-bp');
+      const vitalsSpo2 = document.getElementById('vital-spo2');
+
+      choices.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Disable all buttons to freeze decision
+          choices.forEach(b => {
+            b.disabled = true;
+            b.style.opacity = '0.6';
+          });
+          btn.style.opacity = '1';
+
+          const isCorrect = btn.dataset.correct === 'true';
+
+          if (isCorrect) {
+            btn.classList.add('selected-correct');
+            feedback.className = "sim-feedback-box correct";
+            feedback.innerHTML = "<strong>Correct Decision:</strong> Aspirin 325 mg chewable should be administered immediately to inhibit platelet aggregation in suspected ACS. The ECG demonstrates striking ST-segment elevation in Lead II (suggesting an inferior STEMI) — activating the catheterization laboratory immediately for percutaneous coronary intervention (PCI) is critical to salvage myocardium. <br><br><strong>Outcome:</strong> Cath lab activated. Patient transferred safely for urgent balloon angioplasty.";
+            
+            // Adjust vitals to reflect stabilization
+            vitalsHr.textContent = "88 bpm";
+            vitalsHr.style.color = "#00ff66";
+            vitalsBp.textContent = "118/76 mmHg";
+            vitalsSpo2.textContent = "97%";
+            
+            nextBtn.style.display = 'block';
+          } else {
+            btn.classList.add('selected-incorrect');
+            feedback.className = "sim-feedback-box incorrect";
+            
+            if (btn.dataset.id === "1") {
+              feedback.innerHTML = "<strong>Incorrect Decision (Complication!):</strong> While Nitroglycerin is commonly used to treat angina, the ECG indicates an <strong>inferior STEMI</strong>. Inferior infarctions often involve the right ventricle, which is highly preload-dependent. Giving Nitroglycerin can cause profound hypotension. <br><br><strong>Outcome:</strong> Patient BP drops to 70/40 mmHg. HR rises to 180 bpm. Please reload case to try a safer choice.";
+              vitalsBp.textContent = "70/40 mmHg";
+              vitalsBp.classList.add('critical');
+              vitalsHr.textContent = "180 bpm";
+              vitalsHr.classList.add('critical');
+            } else if (btn.dataset.id === "3") {
+              feedback.innerHTML = "<strong>Incorrect Decision (Delay of Care):</strong> Waiting for cardiac enzymes/troponins or ordering a chest X-Ray before activating the Cath Lab causes critical delays. In STEMI, 'Time is Muscle' — primary PCI must be performed immediately. Waiting is an error. <br><br>Please reload to make an urgent intervention.";
+              vitalsHr.textContent = "172 bpm";
+              vitalsHr.classList.add('critical');
+            } else {
+              feedback.innerHTML = "<strong>Incorrect Decision (Inappropriate Procedure):</strong> Synchronized cardioversion is indicated for unstable tachycardias (like AF or VT with a pulse). The patient's primary pathology is an acute STEMI; sinus tachycardia is secondary. Cardioversion is not indicated. <br><br>Please reload to select medical therapy.";
+            }
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
