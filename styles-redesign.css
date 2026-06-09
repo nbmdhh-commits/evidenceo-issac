@@ -41,6 +41,28 @@
   --issac-radius: 16px;
   --issac-radius-lg: 20px;
   --issac-radius-sm: 8px;
+  --issac-radius-full: 9999px;
+}
+
+/* Global Dark Mode Overrides */
+.dark-mode {
+  --issac-bg: #09090B;              /* Apple dark background */
+  --issac-surface: #18181B;         /* Dark gray cards */
+  --issac-surface-hover: #27272A;
+  --issac-border: #27272A;
+  --issac-border-subtle: #1F1F22;
+  
+  --issac-purple: #8B5CF6;          /* Vibrant purple for dark mode */
+  --issac-purple-light: #2E1065;    /* Dark violet background tint */
+  --issac-purple-hover: #A78BFA;
+  
+  --issac-text: #F4F4F5;            /* Off-white text */
+  --issac-text-sub: #A1A1AA;        /* Light gray */
+  --issac-text-muted: #71717A;      /* Gray */
+  
+  --issac-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --issac-shadow-md: 0 8px 20px rgba(0, 0, 0, 0.3);
+  --issac-shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.4);
 }
 
 /* Global Reset Overrides */
@@ -52,11 +74,15 @@ body.issac-body {
   padding: 0;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  overflow: hidden; /* Fix page double scrollbars */
+  height: 100vh;
 }
 
 .issac-container {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
 /* Sidebar Layout */
@@ -66,41 +92,49 @@ body.issac-body {
   border-right: 1px solid var(--issac-border);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   padding: 1.5rem 1rem;
   flex-shrink: 0;
-  position: sticky;
-  top: 0;
   height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden; /* Prevent sidebar itself from scrolling */
 }
+
+.issac-sidebar-nav, .issac-sidebar > div {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  padding-right: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Custom scrollbar for sidebar nav */
+.issac-sidebar-nav::-webkit-scrollbar, .issac-sidebar > div::-webkit-scrollbar {
+  width: 4px;
+}
+.issac-sidebar-nav::-webkit-scrollbar-track, .issac-sidebar > div::-webkit-scrollbar-track {
+  background: transparent;
+}
+.issac-sidebar-nav::-webkit-scrollbar-thumb, .issac-sidebar > div::-webkit-scrollbar-thumb {
+  background: var(--issac-border);
+  border-radius: 2px;
+}
+.issac-sidebar-nav::-webkit-scrollbar-thumb:hover, .issac-sidebar > div::-webkit-scrollbar-thumb:hover {
+  background: var(--issac-text-muted);
+}
+
+
 
 .issac-logo {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
   padding: 0.5rem;
   text-decoration: none;
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--issac-text);
-}
-
-.issac-logo-icon {
-  width: 28px;
-  height: 28px;
-  background: linear-gradient(135deg, var(--issac-purple), #A78BFA);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 0.875rem;
-  font-weight: bold;
+  margin-bottom: 1rem;
 }
 
 .issac-nav-group {
-  margin-top: 1.5rem;
+  margin-top: 1rem;
 }
 
 .issac-nav-header {
@@ -159,21 +193,32 @@ body.issac-body {
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem;
-  border-top: 1px solid var(--issac-border);
+  border: 1px solid var(--issac-border-subtle);
+  border-radius: var(--issac-radius);
+  background: var(--issac-surface-hover);
   margin-top: auto;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: var(--issac-shadow-sm);
+}
+
+.issac-sidebar-user:hover {
+  border-color: var(--issac-purple);
+  background: var(--issac-purple-light);
 }
 
 .issac-avatar {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: var(--issac-purple-light);
-  color: var(--issac-purple);
+  background: var(--issac-purple);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.875rem;
+  flex-shrink: 0;
 }
 
 .issac-user-info {
@@ -185,19 +230,30 @@ body.issac-body {
   font-size: 0.8125rem;
   font-weight: 600;
   color: var(--issac-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
 }
 
 .issac-userrank {
   font-size: 0.6875rem;
   color: var(--issac-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
 }
 
 /* Main Content Workspace */
 .issac-main {
   flex-grow: 1;
   padding: 2.5rem;
-  overflow-y: auto;
+  overflow-y: auto; /* Main scrolling area */
   height: 100vh;
+  box-sizing: border-box;
+  padding-bottom: 6rem; /* Ensure padding-bottom to protect footer content */
+  scroll-behavior: smooth;
 }
 
 .issac-header {
@@ -224,19 +280,21 @@ body.issac-body {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 1.5rem;
-  align-items: start;
+  align-items: stretch;
 }
 
 .issac-grid-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
+  align-items: stretch;
 }
 
 .issac-grid-2 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
+  align-items: stretch;
 }
 
 /* Apple-style Cards */
@@ -247,6 +305,7 @@ body.issac-body {
   padding: 1.5rem;
   box-shadow: var(--issac-shadow-md);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  box-sizing: border-box;
 }
 
 .issac-card.hoverable:hover {
@@ -475,6 +534,7 @@ body.issac-body {
   box-shadow: var(--issac-shadow-sm);
   outline: none;
   transition: all 0.2s ease;
+  color: var(--issac-text);
 }
 
 .issac-search-input:focus {
@@ -527,6 +587,7 @@ body.issac-body {
   border: 1px solid var(--issac-border);
   font-size: 0.875rem;
   background: var(--issac-surface);
+  color: var(--issac-text);
   outline: none;
   cursor: pointer;
 }
@@ -633,7 +694,7 @@ body.issac-body {
 .issac-canvas {
   width: 100%;
   min-height: 380px;
-  background: #FAF9FC;
+  background: var(--issac-bg);
   border: 1.5px dashed var(--issac-border);
   border-radius: var(--issac-radius);
   display: flex;
@@ -655,7 +716,7 @@ body.issac-body {
 }
 
 .issac-notes-cue {
-  background: #FDFDFE;
+  background: var(--issac-surface-hover);
   border-right: 1px solid var(--issac-border-subtle);
   padding: 1rem;
   font-size: 0.8125rem;
@@ -670,7 +731,7 @@ body.issac-body {
 }
 
 .issac-notes-summary {
-  background: #FAF9FC;
+  background: var(--issac-bg);
   border-left: 1px solid var(--issac-border-subtle);
   padding: 1rem;
   font-size: 0.75rem;

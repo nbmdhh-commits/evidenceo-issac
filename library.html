@@ -10,15 +10,38 @@
   <link rel="stylesheet" href="styles-redesign.css">
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const path = window.location.pathname.split('/').pop() || 'dashboard.html';
-      const activeLink = document.querySelector(`.issac-nav-link[href="${path}"]`);
-      if (activeLink) {
-        activeLink.classList.add('active');
-      }
+      // Render saved diagrams from Diagram Studio
+      const renderSavedDiagrams = () => {
+        const listContainer = document.querySelector('.issac-concept-list');
+        const savedData = localStorage.getItem('saved_diagrams');
+        if (savedData && listContainer) {
+          const diagrams = JSON.parse(savedData);
+          diagrams.forEach(diag => {
+            const card = document.createElement('div');
+            card.className = 'issac-concept-card';
+            card.dataset.tags = 'diagrams';
+            card.style.display = 'flex';
+            card.innerHTML = `
+              <div class="issac-concept-details">
+                <span class="issac-concept-title">${diag.title}</span>
+                <span class="issac-concept-meta">${diag.meta} · Saved on ${diag.date}</span>
+                <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                  <span class="issac-badge issac-badge-amber">Diagrams</span>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.5rem;">
+                <a href="diagram.html" class="issac-btn issac-btn-outline" style="padding: 0.375rem 0.75rem; font-size: 0.75rem;">Open Studio</a>
+              </div>
+            `;
+            listContainer.appendChild(card);
+          });
+        }
+      };
+      
+      renderSavedDiagrams();
 
-      // Filter Logic
+      // Filter Logic (queries elements dynamically to include localStorage elements)
       const tabBtns = document.querySelectorAll('.issac-tab-btn');
-      const conceptCards = document.querySelectorAll('.issac-concept-card');
 
       tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -26,8 +49,9 @@
           btn.classList.add('active');
 
           const filter = btn.dataset.filter;
+          const conceptCards = document.querySelectorAll('.issac-concept-card');
           conceptCards.forEach(card => {
-            const tags = card.dataset.tags.split(' ');
+            const tags = (card.dataset.tags || '').split(' ');
             if (filter === 'all' || tags.includes(filter)) {
               card.style.display = 'flex';
             } else {
@@ -38,6 +62,7 @@
       });
     });
   </script>
+
 </head>
 <body class="issac-body">
 
@@ -210,5 +235,6 @@
     </main>
   </div>
 
+<script src="issac-core.js"></script>
 </body>
 </html>

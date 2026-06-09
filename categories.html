@@ -9,12 +9,30 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles-redesign.css">
   <script>
+    {
+      const theme = localStorage.getItem('theme') || 'dark';
+      if (theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+      } else {
+        document.documentElement.classList.remove('dark-mode');
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       const path = window.location.pathname.split('/').pop() || 'dashboard.html';
       const activeLink = document.querySelector(`.issac-nav-link[href="${path}"]`);
       if (activeLink) {
         activeLink.classList.add('active');
       }
+
+      // Load Profile Values
+      const savedName = localStorage.getItem('profile_name') || 'Dr. Sravya';
+      const savedRank = localStorage.getItem('profile_year') ? `${localStorage.getItem('profile_year')} · ${localStorage.getItem('profile_spec')}` : 'MBBS Student / Scholar';
+      
+      const sidebarNameEl = document.querySelector('.issac-username');
+      const sidebarRankEl = document.querySelector('.issac-userrank');
+      if (sidebarNameEl) sidebarNameEl.textContent = savedName;
+      if (sidebarRankEl) sidebarRankEl.textContent = savedRank;
     });
   </script>
 </head>
@@ -25,8 +43,29 @@
     <aside class="issac-sidebar">
       <div>
         <a href="dashboard.html" class="issac-logo">
-          <div class="issac-logo-icon">I</div>
-          <span>ISSAC</span>
+          <svg class="issac-logo-svg" width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="brainGradLogo" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7C3AED"/>
+                <stop offset="50%" stop-color="#A78BFA"/>
+                <stop offset="100%" stop-color="#C084FC"/>
+              </linearGradient>
+            </defs>
+            <path d="M18 10C14 10 11 12 11 15.5C11 17 12 18 13 18.5C12.5 19.5 12.5 21 13.5 22C14.5 23 16 23 18 23" stroke="url(#brainGradLogo)" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M18 10C22 10 25 12 25 15.5C25 17 24 18 23 18.5C23.5 19.5 23.5 21 22.5 22C21.5 23 20 23 18 23" stroke="url(#brainGradLogo)" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="18" y1="10" x2="18" y2="23" stroke="url(#brainGradLogo)" stroke-width="2.5"/>
+            <circle cx="14" cy="13" r="1.5" fill="#7C3AED"/>
+            <circle cx="22" cy="13" r="1.5" fill="#7C3AED"/>
+            <circle cx="12" cy="17" r="1" fill="#A78BFA"/>
+            <circle cx="24" cy="17" r="1" fill="#A78BFA"/>
+            <circle cx="15" cy="21" r="1.5" fill="#C084FC"/>
+            <circle cx="21" cy="21" r="1.5" fill="#C084FC"/>
+            <line x1="14" y1="13" x2="12" y2="17" stroke="#7C3AED" stroke-width="0.75"/>
+            <line x1="22" y1="13" x2="24" y2="17" stroke="#7C3AED" stroke-width="0.75"/>
+            <line x1="12" y1="17" x2="15" y2="21" stroke="#A78BFA" stroke-width="0.75"/>
+            <line x1="24" y1="17" x2="21" y2="21" stroke="#A78BFA" stroke-width="0.75"/>
+          </svg>
+          <span style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; color: var(--issac-text); margin-left: 0.5rem;">ISSAC</span>
         </a>
 
         <div class="issac-nav-group">
@@ -104,13 +143,13 @@
         </div>
       </div>
 
-      <div class="issac-sidebar-user">
+      <a href="profile.html" class="issac-sidebar-user">
         <div class="issac-avatar">DS</div>
         <div class="issac-user-info">
           <span class="issac-username">Dr. Sravya</span>
-          <span class="issac-userrank">Level 12 · Resident</span>
+          <span class="issac-userrank">MBBS Student / Scholar</span>
         </div>
-      </div>
+      </a>
     </aside>
 
     <!-- Main Workspace -->
@@ -124,8 +163,8 @@
       <div class="issac-grid-3">
         
         <!-- 1. Pre-Clinical Phase -->
-        <div class="issac-card hoverable" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-          <div>
+        <div class="issac-card hoverable" style="display: flex; flex-direction: column; height: 100%;">
+          <div style="flex-grow: 1;">
             <div class="issac-card-header" style="margin-bottom: 0.5rem;">
               <h3 class="issac-card-title">Pre-Clinical Phase</h3>
               <span class="issac-badge issac-badge-purple">Year 1</span>
@@ -137,12 +176,14 @@
               <li style="display: flex; justify-content: space-between;"><span>Biochemistry</span> <span style="color: var(--issac-text-muted); font-size: 0.75rem;">9 Topics</span></li>
             </ul>
           </div>
-          <a href="knowledge.html" class="issac-btn issac-btn-secondary" style="width: 100%; text-align: center;">Browse Phase</a>
+          <div style="margin-top: auto; padding-top: 1.25rem; border-top: 1px solid var(--issac-border-subtle);">
+            <a href="knowledge.html" class="issac-btn issac-btn-primary" style="width: 100%; text-align: center; box-sizing: border-box;">Browse Phase</a>
+          </div>
         </div>
 
         <!-- 2. Para-Clinical Phase -->
-        <div class="issac-card hoverable" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-          <div>
+        <div class="issac-card hoverable" style="display: flex; flex-direction: column; height: 100%;">
+          <div style="flex-grow: 1;">
             <div class="issac-card-header" style="margin-bottom: 0.5rem;">
               <h3 class="issac-card-title">Para-Clinical Phase</h3>
               <span class="issac-badge issac-badge-purple">Years 2-3</span>
@@ -156,12 +197,14 @@
               <li style="display: flex; justify-content: space-between;"><span>Community Medicine</span> <span style="color: var(--issac-text-muted); font-size: 0.75rem;">8 Topics</span></li>
             </ul>
           </div>
-          <a href="knowledge.html" class="issac-btn issac-btn-secondary" style="width: 100%; text-align: center;">Browse Phase</a>
+          <div style="margin-top: auto; padding-top: 1.25rem; border-top: 1px solid var(--issac-border-subtle);">
+            <a href="knowledge.html" class="issac-btn issac-btn-primary" style="width: 100%; text-align: center; box-sizing: border-box;">Browse Phase</a>
+          </div>
         </div>
 
         <!-- 3. Clinical Phase -->
-        <div class="issac-card hoverable" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-          <div>
+        <div class="issac-card hoverable" style="display: flex; flex-direction: column; height: 100%;">
+          <div style="flex-grow: 1;">
             <div class="issac-card-header" style="margin-bottom: 0.5rem;">
               <h3 class="issac-card-title">Clinical Phase</h3>
               <span class="issac-badge issac-badge-purple">Years 3-4 + Intern</span>
@@ -183,12 +226,15 @@
               </ul>
             </div>
           </div>
-          <a href="knowledge.html" class="issac-btn issac-btn-secondary" style="width: 100%; text-align: center;">Browse Phase</a>
+          <div style="margin-top: auto; padding-top: 1.25rem; border-top: 1px solid var(--issac-border-subtle);">
+            <a href="knowledge.html" class="issac-btn issac-btn-primary" style="width: 100%; text-align: center; box-sizing: border-box;">Browse Phase</a>
+          </div>
         </div>
 
       </div>
     </main>
   </div>
 
+<script src="issac-core.js"></script>
 </body>
 </html>

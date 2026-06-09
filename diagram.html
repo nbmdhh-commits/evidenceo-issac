@@ -9,6 +9,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles-redesign.css">
   <script>
+    {
+      const theme = localStorage.getItem('theme') || 'dark';
+      if (theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+      } else {
+        document.documentElement.classList.remove('dark-mode');
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       const path = window.location.pathname.split('/').pop() || 'dashboard.html';
       const activeLink = document.querySelector(`.issac-nav-link[href="${path}"]`);
@@ -16,145 +25,332 @@
         activeLink.classList.add('active');
       }
 
-      // Diagram Generation Engine
+      // Load Profile Values
+      const savedName = localStorage.getItem('profile_name') || 'Dr. Sravya';
+      const savedRank = localStorage.getItem('profile_year') ? `${localStorage.getItem('profile_year')} · ${localStorage.getItem('profile_spec')}` : 'MBBS Student / Scholar';
+      
+      const sidebarNameEl = document.querySelector('.issac-username');
+      const sidebarRankEl = document.querySelector('.issac-userrank');
+      if (sidebarNameEl) sidebarNameEl.textContent = savedName;
+      if (sidebarRankEl) sidebarRankEl.textContent = savedRank;
+
+      // Diagram Studio Engine
       const btnGenerate = document.getElementById('btnGenerate');
       const topicInput = document.getElementById('topicInput');
       const typeSelect = document.getElementById('typeSelect');
-      
-      const canvasText = document.getElementById('canvasPlaceholderText');
       const canvasSVG = document.getElementById('canvasSVG');
       const keyTitle = document.getElementById('keyTitle');
       const keyDescription = document.getElementById('keyDescription');
       const keyList = document.getElementById('keyList');
 
-      const renderDiagram = () => {
-        const topic = topicInput.value.trim().toLowerCase();
-        const type = typeSelect.value;
+      const getResolvedSVGString = (svgElement) => {
+        let svgString = new XMLSerializer().serializeToString(svgElement);
+        const isDark = document.documentElement.classList.contains('dark-mode');
+        
+        const colors = isDark ? {
+          '--issac-border': '#27272A',
+          '--issac-border-subtle': '#1F1F22',
+          '--issac-bg': '#09090B',
+          '--issac-text': '#F4F4F5',
+          '--issac-text-sub': '#A1A1AA',
+          '--issac-text-muted': '#71717A',
+          '--issac-surface': '#18181B',
+          '--issac-purple': '#8B5CF6',
+          '--issac-purple-light': '#2E1065',
+          '--issac-purple-hover': '#A78BFA'
+        } : {
+          '--issac-border': '#E8E8EC',
+          '--issac-border-subtle': '#F1F1F4',
+          '--issac-bg': '#F5F5FA',
+          '--issac-text': '#1C1C1E',
+          '--issac-text-sub': '#5C5C5E',
+          '--issac-text-muted': '#8E8E93',
+          '--issac-surface': '#FFFFFF',
+          '--issac-purple': '#7C3AED',
+          '--issac-purple-light': '#F3EEFF',
+          '--issac-purple-hover': '#6D28D9'
+        };
+        
+        for (const [variable, hex] of Object.entries(colors)) {
+          const regex = new RegExp(`var\\(${variable}\\)`, 'g');
+          svgString = svgString.replace(regex, hex);
+        }
+        
+        return svgString;
+      };
 
-        // Reset
-        canvasText.style.display = 'none';
+      const renderDiagram = () => {
+        const topic = topicInput.value.trim() || "Heart Chambers";
+        const type = typeSelect.value;
         canvasSVG.innerHTML = '';
         keyList.innerHTML = '';
 
-        if (topic.includes('heart') || topic.includes('myocardial') || type === 'anatomy') {
-          // Render Heart Anatomy Diagram
-          keyTitle.textContent = "Anatomy: Heart Chamber Flows";
-          keyDescription.textContent = "Simplified diagram of deoxygenated and oxygenated blood pathways within the cardiac chambers.";
+        // Markers definition
+        const markersDefs = `
+          <defs>
+            <marker id="blue-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+            </marker>
+            <marker id="red-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#dc2626"/>
+            </marker>
+            <marker id="purple-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--issac-purple)"/>
+            </marker>
+          </defs>
+        `;
+
+        if (type === 'anatomy' || topic.toLowerCase().includes('heart') || topic.toLowerCase().includes('chamber')) {
+          keyTitle.textContent = "Anatomy: Heart Chambers & Valvular Flows";
+          keyDescription.textContent = "Clinical schematic showing venous deoxygenated inflows (blue) via the right side and systemic oxygenated arterial outflows (red) via the left side.";
           
           keyList.innerHTML = `
-            <li><span class="issac-badge issac-badge-rose">RA / RV</span> Right Atrium / Ventricle (Deoxygenated inflow)</li>
-            <li><span class="issac-badge issac-badge-purple">LA / LV</span> Left Atrium / Ventricle (Oxygenated outflow)</li>
-            <li><span class="issac-badge issac-badge-emerald">Valves</span> Tricuspid, Pulmonic, Mitral, Aortic (unidirectional gates)</li>
+            <li><span class="issac-badge issac-badge-purple">RA / RV</span> Right Atrium & Right Ventricle (Preload system)</li>
+            <li><span class="issac-badge issac-badge-rose">LA / LV</span> Left Atrium & Left Ventricle (Stroke volume pump)</li>
+            <li><span class="issac-badge issac-badge-emerald">Valves</span> Tricuspid & Mitral Gates regulating unidirectional pressure</li>
+            <li><span class="issac-badge issac-badge-amber">Flow Lines</span> Directional lines representing pulmonary (blue) and systemic (red) flows</li>
           `;
 
-          canvasSVG.innerHTML = `
+          canvasSVG.innerHTML = markersDefs + `
+            <!-- Background Border -->
+            <rect x="10" y="10" width="480" height="300" rx="12" fill="none" stroke="var(--issac-border)" stroke-width="1.5"/>
+            
+            <!-- Cardiac Outer Boundary -->
+            <path d="M 250,30 C 140,30 90,90 90,160 C 90,230 180,270 250,295 C 320,270 410,230 410,160 C 410,90 360,30 250,30 Z" fill="none" stroke="var(--issac-border)" stroke-width="6" opacity="0.2" />
+            
+            <!-- Ventricle Walls (Thicker LV pump wall) -->
+            <path d="M 250,290 C 310,270 380,230 380,160" fill="none" stroke="#dc2626" stroke-width="10" opacity="0.25" stroke-linecap="round"/>
+            <path d="M 250,290 C 190,270 120,230 120,160" fill="none" stroke="#2563eb" stroke-width="6" opacity="0.25" stroke-linecap="round"/>
+            
+            <!-- Septum -->
+            <line x1="250" y1="50" x2="250" y2="285" stroke="var(--issac-border)" stroke-width="8" stroke-linecap="round"/>
+
             <!-- Chambers -->
-            <rect x="80" y="50" width="140" height="90" rx="8" fill="white" stroke="#E5E5E9" stroke-width="2"/>
-            <text x="150" y="100" font-family="Outfit" font-size="12" text-anchor="middle" font-weight="600" fill="var(--issac-text-sub)">Right Atrium (RA)</text>
+            <!-- RA -->
+            <circle cx="170" cy="95" r="32" fill="var(--issac-surface)" stroke="#3b82f6" stroke-width="2" />
+            <text x="170" y="98" font-family="Outfit" font-size="9" font-weight="700" fill="var(--issac-text)" text-anchor="middle">Right Atrium</text>
+            <text x="170" y="109" font-family="Inter" font-size="7" fill="#3b82f6" text-anchor="middle">RA</text>
+
+            <!-- LA -->
+            <circle cx="330" cy="95" r="32" fill="var(--issac-surface)" stroke="#ef4444" stroke-width="2" />
+            <text x="330" y="98" font-family="Outfit" font-size="9" font-weight="700" fill="var(--issac-text)" text-anchor="middle">Left Atrium</text>
+            <text x="330" y="109" font-family="Inter" font-size="7" fill="#ef4444" text-anchor="middle">LA</text>
+
+            <!-- RV -->
+            <circle cx="170" cy="215" r="36" fill="var(--issac-surface)" stroke="#2563eb" stroke-width="2" />
+            <text x="170" y="218" font-family="Outfit" font-size="9" font-weight="700" fill="var(--issac-text)" text-anchor="middle">Right Ventricle</text>
+            <text x="170" y="229" font-family="Inter" font-size="7" fill="#2563eb" text-anchor="middle">RV</text>
+
+            <!-- LV -->
+            <circle cx="330" cy="215" r="36" fill="var(--issac-surface)" stroke="#dc2626" stroke-width="3" />
+            <text x="330" y="218" font-family="Outfit" font-size="9" font-weight="700" fill="var(--issac-text)" text-anchor="middle">Left Ventricle</text>
+            <text x="330" y="229" font-family="Inter" font-size="7" fill="#dc2626" text-anchor="middle">LV (Thick Pump)</text>
+
+            <!-- Valves -->
+            <!-- Tricuspid -->
+            <path d="M 155,140 L 170,160 M 185,140 L 170,160" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" />
+            <rect x="135" y="142" width="70" height="14" rx="3" fill="var(--issac-surface)" stroke="#3b82f6" stroke-width="1" />
+            <text x="170" y="152" font-family="Inter" font-size="7" font-weight="600" fill="#2563eb" text-anchor="middle">Tricuspid Valve</text>
+
+            <!-- Mitral -->
+            <path d="M 315,140 L 330,160 M 345,140 L 330,160" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" />
+            <rect x="295" y="142" width="70" height="14" rx="3" fill="var(--issac-surface)" stroke="#ef4444" stroke-width="1" />
+            <text x="330" y="152" font-family="Inter" font-size="7" font-weight="600" fill="#dc2626" text-anchor="middle">Mitral Valve</text>
+
+            <!-- Flow Paths SVC/IVC/Pulm/Aorta -->
+            <!-- SVC -->
+            <path d="M 90,45 L 140,75" fill="none" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#blue-arrow)" />
+            <text x="75" y="40" font-family="Inter" font-size="7" fill="#3b82f6">Superior Vena Cava</text>
             
-            <rect x="80" y="160" width="140" height="90" rx="8" fill="white" stroke="#E5E5E9" stroke-width="2"/>
-            <text x="150" y="210" font-family="Outfit" font-size="12" text-anchor="middle" font-weight="600" fill="var(--issac-text-sub)">Right Ventricle (RV)</text>
+            <!-- IVC -->
+            <path d="M 90,265 L 140,235" fill="none" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#blue-arrow)" />
+            <text x="75" y="275" font-family="Inter" font-size="7" fill="#3b82f6">Inferior Vena Cava</text>
 
-            <rect x="280" y="50" width="140" height="90" rx="8" fill="white" stroke="#E5E5E9" stroke-width="2"/>
-            <text x="350" y="100" font-family="Outfit" font-size="12" text-anchor="middle" font-weight="600" fill="var(--issac-text-sub)">Left Atrium (LA)</text>
-            
-            <rect x="280" y="160" width="140" height="90" rx="8" fill="white" stroke="#E5E5E9" stroke-width="2"/>
-            <text x="350" y="210" font-family="Outfit" font-size="12" text-anchor="middle" font-weight="600" fill="var(--issac-text-sub)">Left Ventricle (LV)</text>
+            <!-- Pulm Veins -->
+            <path d="M 410,50 L 360,80" fill="none" stroke="#ef4444" stroke-width="2.5" marker-end="url(#red-arrow)" />
+            <text x="425" y="45" font-family="Inter" font-size="7" fill="#ef4444" text-anchor="end">Pulmonary Veins</text>
 
-            <!-- Flow Arrows -->
-            <path d="M 150,140 L 150,160" fill="none" stroke="var(--issac-purple)" stroke-width="3" marker-end="url(#arrow)"/>
-            <path d="M 350,140 L 350,160" fill="none" stroke="var(--issac-purple)" stroke-width="3" marker-end="url(#arrow)"/>
+            <!-- Pulm Outflow -->
+            <path d="M 170,178 Q 205,178 205,130" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-dasharray="2,2" />
+            <path d="M 205,130 Q 205,55 170,35" fill="none" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#blue-arrow)" />
+            <text x="210" y="50" font-family="Inter" font-size="7" fill="#3b82f6">To Pulm. Artery</text>
 
-            <defs>
-              <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--issac-purple)"/>
-              </marker>
-            </defs>
+            <!-- Aorta Outflow -->
+            <path d="M 330,178 Q 295,178 295,130" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="2,2" />
+            <path d="M 295,130 Q 295,45 330,25" fill="none" stroke="#dc2626" stroke-width="2.5" marker-end="url(#red-arrow)" />
+            <text x="290" y="40" font-family="Inter" font-size="7" fill="#dc2626" text-anchor="end">To Aortic Arch</text>
           `;
-        } else if (topic.includes('beta') || topic.includes('blocker') || type === 'drug_mechanism') {
-          // Render Beta Blocker Mechanism Diagram
-          keyTitle.textContent = "Mechanism: Beta Adrenergic Blockade";
-          keyDescription.textContent = "Simplified diagram of drug molecule competition at receptor nodes and downstream effects.";
+        } else if (type === 'concept_map') {
+          keyTitle.textContent = "Concept Map: " + topic;
+          keyDescription.textContent = "Visual representation of clinical nodes, mechanics, and diagnostic correlations.";
           
           keyList.innerHTML = `
-            <li><span class="issac-badge issac-badge-rose">Beta Receptor</span> Target site for epinephrine/norepinephrine</li>
-            <li><span class="issac-badge issac-badge-purple">Beta Blocker</span> Antagonist molecule blocking stimulation</li>
-            <li><span class="issac-badge issac-badge-amber">cAMP / HR</span> Reduced intracellular cAMP, slowing Heart Rate</li>
+            <li><span class="issac-badge issac-badge-purple">Central Theme</span> Main clinical topic</li>
+            <li><span class="issac-badge issac-badge-emerald">Pathology</span> Mechanical triggers and cellular behaviors</li>
+            <li><span class="issac-badge issac-badge-amber">Diagnosis</span> Required diagnostic tests and findings</li>
           `;
 
-          canvasSVG.innerHTML = `
-            <!-- Drug binding -->
-            <circle cx="100" cy="150" r="30" fill="white" stroke="var(--issac-rose)" stroke-width="2"/>
-            <text x="100" y="154" font-family="Outfit" font-size="10" text-anchor="middle" font-weight="600" fill="var(--issac-rose)">Beta Blocker</text>
+          canvasSVG.innerHTML = markersDefs + `
+            <!-- Background Border -->
+            <rect x="10" y="10" width="480" height="300" rx="12" fill="none" stroke="var(--issac-border)" stroke-width="1.5"/>
+            
+            <!-- Central Node -->
+            <rect x="170" y="130" width="160" height="50" rx="10" fill="var(--issac-surface)" stroke="var(--issac-purple)" stroke-width="2"/>
+            <text x="250" y="156" font-family="Outfit" font-size="11" font-weight="700" fill="var(--issac-text)" text-anchor="middle">${topic}</text>
+            <text x="250" y="168" font-family="Inter" font-size="7" fill="var(--issac-text-sub)" text-anchor="middle">Central Core Theme</text>
 
-            <rect x="220" y="110" width="80" height="80" rx="8" fill="white" stroke="var(--issac-purple)" stroke-width="2"/>
-            <text x="260" y="154" font-family="Outfit" font-size="10" text-anchor="middle" font-weight="600" fill="var(--issac-purple)">Beta-1 Receptor</text>
+            <!-- Surrounding Nodes -->
+            <!-- Pathophysiology -->
+            <rect x="30" y="40" width="120" height="50" rx="8" fill="var(--issac-surface)" stroke="var(--issac-border)" stroke-width="1.5"/>
+            <text x="90" y="66" font-family="Outfit" font-size="10" font-weight="700" fill="var(--issac-text)" text-anchor="middle">Pathophysiology</text>
+            <text x="90" y="78" font-family="Inter" font-size="8" fill="var(--issac-text-sub)" text-anchor="middle">Etiology & Triggers</text>
 
-            <circle cx="400" cy="150" r="30" fill="white" stroke="var(--issac-emerald)" stroke-width="2"/>
-            <text x="400" y="154" font-family="Outfit" font-size="10" text-anchor="middle" font-weight="600" fill="var(--issac-emerald)">↓ Heart Rate</text>
+            <!-- Diagnostics -->
+            <rect x="330" y="40" width="120" height="50" rx="8" fill="var(--issac-surface)" stroke="var(--issac-border)" stroke-width="1.5"/>
+            <text x="390" y="66" font-family="Outfit" font-size="10" font-weight="700" fill="var(--issac-text)" text-anchor="middle">Diagnostics</text>
+            <text x="390" y="78" font-family="Inter" font-size="8" fill="var(--issac-text-sub)" text-anchor="middle">Biomarkers & ECG</text>
 
-            <!-- Lines -->
-            <line x1="130" y1="150" x2="220" y2="150" stroke="var(--issac-rose)" stroke-width="3" stroke-dasharray="4,4"/>
-            <path d="M 300,150 L 370,150" fill="none" stroke="var(--issac-purple)" stroke-width="3" marker-end="url(#arrow-purple)"/>
+            <!-- Interventions -->
+            <rect x="30" y="220" width="120" height="50" rx="8" fill="var(--issac-surface)" stroke="var(--issac-border)" stroke-width="1.5"/>
+            <text x="90" y="246" font-family="Outfit" font-size="10" font-weight="700" fill="var(--issac-text)" text-anchor="middle">Interventions</text>
+            <text x="90" y="258" font-family="Inter" font-size="8" fill="var(--issac-text-sub)" text-anchor="middle">Primary PCI & Lytic</text>
 
-            <defs>
-              <marker id="arrow-purple" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--issac-purple)"/>
-              </marker>
-            </defs>
+            <!-- Complications -->
+            <rect x="330" y="220" width="120" height="50" rx="8" fill="var(--issac-surface)" stroke="var(--issac-border)" stroke-width="1.5"/>
+            <text x="390" y="246" font-family="Outfit" font-size="10" font-weight="700" fill="var(--issac-text)" text-anchor="middle">Complications</text>
+            <text x="390" y="258" font-family="Inter" font-size="8" fill="var(--issac-text-sub)" text-anchor="middle">Heart Failure & Shock</text>
+
+            <!-- Connector Lines and labels -->
+            <path d="M 210,130 Q 150,110 120,90" fill="none" stroke="var(--issac-purple)" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#purple-arrow)"/>
+            <text x="175" y="105" font-family="Inter" font-size="7" fill="var(--issac-text-muted)" text-anchor="middle">drives</text>
+
+            <path d="M 290,130 Q 350,110 380,90" fill="none" stroke="var(--issac-purple)" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#purple-arrow)"/>
+            <text x="325" y="105" font-family="Inter" font-size="7" fill="var(--issac-text-muted)" text-anchor="middle">requires</text>
+
+            <path d="M 210,180 Q 150,200 120,220" fill="none" stroke="var(--issac-purple)" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#purple-arrow)"/>
+            <text x="175" y="205" font-family="Inter" font-size="7" fill="var(--issac-text-muted)" text-anchor="middle">managed by</text>
+
+            <path d="M 290,180 Q 350,200 380,220" fill="none" stroke="var(--issac-purple)" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#purple-arrow)"/>
+            <text x="325" y="205" font-family="Inter" font-size="7" fill="var(--issac-text-muted)" text-anchor="middle">leads to</text>
           `;
         } else {
-          // Render generic Concept Map
-          const capitalizedTopic = topic ? topic.charAt(0).toUpperCase() + topic.slice(1) : "Medical Concept";
-          keyTitle.textContent = `Concept Map: ${capitalizedTopic}`;
-          keyDescription.textContent = `Overview of clinical associations, diagnostic requirements, and key mechanics for ${capitalizedTopic}.`;
+          // Stepwise Clinical Pathway
+          keyTitle.textContent = "Clinical Pathway: " + topic;
+          keyDescription.textContent = "Sequence of diagnostic checkpoints and interventions for acute cases.";
           
           keyList.innerHTML = `
-            <li><span class="issac-badge issac-badge-purple">Central Concept</span> Main clinical topic</li>
-            <li><span class="issac-badge issac-badge-emerald">Pathology</span> Etiology and physiological manifestation</li>
-            <li><span class="issac-badge issac-badge-amber">Diagnosis</span> Tests, enzymes, and clinical presentations</li>
+            <li><span class="issac-badge issac-badge-purple">Step 1</span> Clinical presentation and initial assessments</li>
+            <li><span class="issac-badge issac-badge-amber">Step 2</span> Lab screening and diagnostic verification</li>
+            <li><span class="issac-badge issac-badge-emerald">Step 3</span> Definitive management guidelines</li>
           `;
 
-          canvasSVG.innerHTML = `
-            <!-- Nodes -->
-            <circle cx="250" cy="150" r="45" fill="white" stroke="var(--issac-purple)" stroke-width="2.5"/>
-            <text x="250" y="154" font-family="Outfit" font-size="11" text-anchor="middle" font-weight="600" fill="var(--issac-text)">${capitalizedTopic}</text>
+          canvasSVG.innerHTML = markersDefs + `
+            <!-- Background Border -->
+            <rect x="10" y="10" width="480" height="300" rx="12" fill="none" stroke="var(--issac-border)" stroke-width="1.5"/>
+            
+            <!-- Step 1 Card -->
+            <rect x="30" y="30" width="180" height="65" rx="8" fill="var(--issac-surface)" stroke="var(--issac-border)" stroke-width="1.5"/>
+            <rect x="40" y="42" width="20" height="20" rx="4" fill="var(--issac-purple-light)" />
+            <text x="50" y="55" font-family="Outfit" font-size="9" font-weight="700" fill="var(--issac-purple)" text-anchor="middle">1</text>
+            <text x="70" y="48" font-family="Outfit" font-size="10" font-weight="700" fill="var(--issac-text)">Initial Assessment</text>
+            <text x="70" y="60" font-family="Inter" font-size="8" fill="var(--issac-text-sub)">Vitals & Physical Exam</text>
+            <text x="70" y="70" font-family="Inter" font-size="8" fill="var(--issac-text-sub)">Risk Stratification</text>
 
-            <rect x="50" y="110" width="110" height="80" rx="8" fill="white" stroke="#E5E5E9" stroke-width="2"/>
-            <text x="105" y="154" font-family="Outfit" font-size="11" text-anchor="middle" fill="var(--issac-text-sub)">Pathophysiology</text>
+            <!-- Step 2 Card -->
+            <rect x="270" y="30" width="180" height="65" rx="8" fill="var(--issac-surface)" stroke="var(--issac-border)" stroke-width="1.5"/>
+            <rect x="280" y="42" width="20" height="20" rx="4" fill="var(--issac-purple-light)" />
+            <text x="290" y="55" font-family="Outfit" font-size="9" font-weight="700" fill="var(--issac-purple)" text-anchor="middle">2</text>
+            <text x="310" y="48" font-family="Outfit" font-size="10" font-weight="700" fill="var(--issac-text)">Diagnostic Verify</text>
+            <text x="310" y="60" font-family="Inter" font-size="8" fill="var(--issac-text-sub)">Biomarkers & Labs</text>
+            <text x="310" y="70" font-family="Inter" font-size="8" fill="var(--issac-text-sub)">12-Lead ECG</text>
 
-            <rect x="340" y="110" width="110" height="80" rx="8" fill="white" stroke="#E5E5E9" stroke-width="2"/>
-            <text x="395" y="154" font-family="Outfit" font-size="11" text-anchor="middle" fill="var(--issac-text-sub)">Diagnostics</text>
+            <!-- Step 3 Card -->
+            <rect x="270" y="200" width="180" height="65" rx="8" fill="var(--issac-surface)" stroke="var(--issac-border)" stroke-width="1.5"/>
+            <rect x="280" y="212" width="20" height="20" rx="4" fill="var(--issac-purple-light)" />
+            <text x="290" y="225" font-family="Outfit" font-size="9" font-weight="700" fill="var(--issac-purple)" text-anchor="middle">3</text>
+            <text x="310" y="218" font-family="Outfit" font-size="10" font-weight="700" fill="var(--issac-text)">Definitive Care</text>
+            <text x="310" y="230" font-family="Inter" font-size="8" fill="var(--issac-text-sub)">Primary PCI (if STEMI)</text>
+            <text x="310" y="240" font-family="Inter" font-size="8" fill="var(--issac-text-sub)">Lytic / Pharmacotherapy</text>
 
-            <!-- Relationship lines -->
-            <line x1="205" y1="150" x2="160" y2="150" stroke="var(--issac-purple)" stroke-width="2" marker-end="url(#arrow-g)"/>
-            <line x1="295" y1="150" x2="340" y2="150" stroke="var(--issac-purple)" stroke-width="2" marker-end="url(#arrow-g)"/>
+            <!-- Step 4 Card -->
+            <rect x="30" y="200" width="180" height="65" rx="8" fill="var(--issac-surface)" stroke="var(--issac-border)" stroke-width="1.5"/>
+            <rect x="40" y="212" width="20" height="20" rx="4" fill="var(--issac-purple-light)" />
+            <text x="50" y="225" font-family="Outfit" font-size="9" font-weight="700" fill="var(--issac-purple)" text-anchor="middle">4</text>
+            <text x="70" y="218" font-family="Outfit" font-size="10" font-weight="700" fill="var(--issac-text)">Patient Monitoring</text>
+            <text x="70" y="230" font-family="Inter" font-size="8" fill="var(--issac-text-sub)">Cardiac Rehab</text>
+            <text x="70" y="240" font-family="Inter" font-size="8" fill="var(--issac-text-sub)">Medication Titration</text>
 
-            <defs>
-              <marker id="arrow-g" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--issac-purple)"/>
-              </marker>
-            </defs>
+            <!-- Connections -->
+            <path d="M 210,62.5 L 270,62.5" fill="none" stroke="var(--issac-purple)" stroke-width="2" marker-end="url(#purple-arrow)"/>
+            <path d="M 360,95 L 360,200" fill="none" stroke="var(--issac-purple)" stroke-width="2" marker-end="url(#purple-arrow)"/>
+            <path d="M 270,232.5 L 210,232.5" fill="none" stroke="var(--issac-purple)" stroke-width="2" marker-end="url(#purple-arrow)"/>
           `;
         }
       };
 
       btnGenerate.addEventListener('click', renderDiagram);
-      
-      // Save / Export Actions
+
+      // Save to Library
       document.getElementById('btnSave').addEventListener('click', () => {
+        const title = topicInput.value.trim() || "Generated Diagram";
+        const typeText = typeSelect.options[typeSelect.selectedIndex].text;
+        
+        let saved = JSON.parse(localStorage.getItem('saved_diagrams') || '[]');
+        saved.push({ title: title, meta: typeText, date: new Date().toLocaleDateString() });
+        localStorage.setItem('saved_diagrams', JSON.stringify(saved));
+        
         alert('Diagram saved successfully to your Saved Library!');
       });
 
+      // Export PNG using client-side canvas serialization
       document.getElementById('btnExportPNG').addEventListener('click', () => {
-        alert('Exporting diagram as PNG image...');
+        const svgElement = document.getElementById('canvasSVG');
+        const filename = (topicInput.value.trim() || "diagram") + ".png";
+        
+        const svgString = getResolvedSVGString(svgElement);
+        const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+        const URL = window.URL || window.webkitURL || window;
+        const blobURL = URL.createObjectURL(svgBlob);
+        const image = new Image();
+        
+        image.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = 500;
+          canvas.height = 320;
+          const context = canvas.getContext('2d');
+          context.fillStyle = document.documentElement.classList.contains('dark-mode') ? '#09090b' : '#f5f5fa';
+          context.fillRect(0, 0, canvas.width, canvas.height);
+          context.drawImage(image, 0, 0);
+          
+          const png = canvas.toDataURL('image/png');
+          const downloadLink = document.createElement('a');
+          downloadLink.href = png;
+          downloadLink.download = filename;
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+          document.body.removeChild(downloadLink);
+          URL.revokeObjectURL(blobURL);
+        };
+        image.src = blobURL;
       });
 
+      // Export PDF using native browser print utility
       document.getElementById('btnExportPDF').addEventListener('click', () => {
-        alert('Exporting diagram as document PDF...');
+        const svgElement = document.getElementById('canvasSVG');
+        const filename = (topicInput.value.trim() || "diagram") + ".pdf";
+        const svgString = getResolvedSVGString(svgElement);
+
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write('<html><head><title>' + filename + '</title>');
+        printWindow.document.write('<style>body{margin:0;display:flex;justify-content:center;align-items:center;height:100vh;background-color:' + (document.documentElement.classList.contains('dark-mode') ? '#09090b' : '#f5f5fa') + ';}svg{width:90%;height:auto;}</style>');
+        printWindow.document.write('</head><body>');
+        printWindow.document.write(svgString);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
       });
-      
-      // Initialize with default heart
+
+      // Initialize
       topicInput.value = "Heart Chambers";
       renderDiagram();
 
@@ -168,8 +364,29 @@
     <aside class="issac-sidebar">
       <div>
         <a href="dashboard.html" class="issac-logo">
-          <div class="issac-logo-icon">I</div>
-          <span>ISSAC</span>
+          <svg class="issac-logo-svg" width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="brainGradLogo" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7C3AED"/>
+                <stop offset="50%" stop-color="#A78BFA"/>
+                <stop offset="100%" stop-color="#C084FC"/>
+              </linearGradient>
+            </defs>
+            <path d="M18 10C14 10 11 12 11 15.5C11 17 12 18 13 18.5C12.5 19.5 12.5 21 13.5 22C14.5 23 16 23 18 23" stroke="url(#brainGradLogo)" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M18 10C22 10 25 12 25 15.5C25 17 24 18 23 18.5C23.5 19.5 23.5 21 22.5 22C21.5 23 20 23 18 23" stroke="url(#brainGradLogo)" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="18" y1="10" x2="18" y2="23" stroke="url(#brainGradLogo)" stroke-width="2.5"/>
+            <circle cx="14" cy="13" r="1.5" fill="#7C3AED"/>
+            <circle cx="22" cy="13" r="1.5" fill="#7C3AED"/>
+            <circle cx="12" cy="17" r="1" fill="#A78BFA"/>
+            <circle cx="24" cy="17" r="1" fill="#A78BFA"/>
+            <circle cx="15" cy="21" r="1.5" fill="#C084FC"/>
+            <circle cx="21" cy="21" r="1.5" fill="#C084FC"/>
+            <line x1="14" y1="13" x2="12" y2="17" stroke="#7C3AED" stroke-width="0.75"/>
+            <line x1="22" y1="13" x2="24" y2="17" stroke="#7C3AED" stroke-width="0.75"/>
+            <line x1="12" y1="17" x2="15" y2="21" stroke="#A78BFA" stroke-width="0.75"/>
+            <line x1="24" y1="17" x2="21" y2="21" stroke="#A78BFA" stroke-width="0.75"/>
+          </svg>
+          <span style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; color: var(--issac-text); margin-left: 0.5rem;">ISSAC</span>
         </a>
 
         <div class="issac-nav-group">
@@ -247,13 +464,13 @@
         </div>
       </div>
 
-      <div class="issac-sidebar-user">
+      <a href="profile.html" class="issac-sidebar-user">
         <div class="issac-avatar">DS</div>
         <div class="issac-user-info">
           <span class="issac-username">Dr. Sravya</span>
-          <span class="issac-userrank">Level 12 · Resident</span>
+          <span class="issac-userrank">MBBS Student / Scholar</span>
         </div>
-      </div>
+      </a>
     </aside>
 
     <!-- Main Workspace -->
@@ -281,7 +498,6 @@
 
             <!-- SVG Canvas Box -->
             <div class="issac-canvas">
-              <span id="canvasPlaceholderText" style="color: var(--issac-text-muted); font-size: 0.875rem;">Select options and click Generate...</span>
               <svg id="canvasSVG" viewBox="0 0 500 320" width="100%" height="320" style="display: block;"></svg>
             </div>
           </div>
@@ -300,7 +516,7 @@
               
               <div class="issac-form-group">
                 <label class="issac-form-label">Medical Topic</label>
-                <input type="text" id="topicInput" class="issac-search-input" style="padding: 0.625rem 0.875rem; font-size: 0.875rem; border-radius: 8px; box-shadow: none;" placeholder="e.g. Heart Anatomy, Beta Blockers...">
+                <input type="text" id="topicInput" class="issac-search-input" style="padding: 0.625rem 0.875rem; font-size: 0.875rem; border-radius: 8px; box-shadow: none;" placeholder="e.g. Heart Chambers, Beta Blockers...">
               </div>
 
               <div class="issac-form-group">
@@ -310,9 +526,7 @@
                   <option value="pathophysiology">Pathophysiology diagram</option>
                   <option value="concept_map">Concept map</option>
                   <option value="clinical_pathway">Clinical pathway</option>
-                  <option value="histology">Histology sketch</option>
                   <option value="drug_mechanism">Drug mechanism diagram</option>
-                  <option value="progression">Disease progression diagram</option>
                 </select>
               </div>
 
@@ -340,5 +554,6 @@
     </main>
   </div>
 
+<script src="issac-core.js"></script>
 </body>
 </html>

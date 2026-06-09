@@ -9,6 +9,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles-redesign.css">
   <script>
+    {
+      const theme = localStorage.getItem('theme') || 'dark';
+      if (theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+      } else {
+        document.documentElement.classList.remove('dark-mode');
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       const path = window.location.pathname.split('/').pop() || 'dashboard.html';
       const activeLink = document.querySelector(`.issac-nav-link[href="${path}"]`);
@@ -16,23 +25,58 @@
         activeLink.classList.add('active');
       }
 
-      // Flashcards Deck Logic
+      // Load Profile Values
+      const savedName = localStorage.getItem('profile_name') || 'Dr. Sravya';
+      const savedRank = localStorage.getItem('profile_year') ? `${localStorage.getItem('profile_year')} · ${localStorage.getItem('profile_spec')}` : 'MBBS Student / Scholar';
+      
+      const sidebarNameEl = document.querySelector('.issac-username');
+      const sidebarRankEl = document.querySelector('.issac-userrank');
+      if (sidebarNameEl) sidebarNameEl.textContent = savedName;
+      if (sidebarRankEl) sidebarRankEl.textContent = savedRank;
+
+      // Flashcard Deck containing the 6 required cards
       const deck = [
-        { q: "What is the priority window for ECG in suspected ACS?", a: "Within 10 minutes of presentation." },
-        { q: "Why are right ventricular infarctions preload-dependent?", a: "They require high venous return pressure to maintain cardiac output (avoid nitroglycerin)." },
-        { q: "Which cardiac biomarker is the most specific for injury?", a: "Cardiac Troponin I or T (elevated up to 10-14 days)." },
-        { q: "What is the primary vascular pathology in STEMI?", a: "Complete acute thrombotic occlusion of a major epicardial coronary artery." }
+        {
+          q: "What is the priority window for ECG in suspected ACS?",
+          a: "A 12-lead ECG should be obtained within 10 minutes of first medical contact."
+        },
+        {
+          q: "Which biomarker is most specific for myocardial injury?",
+          a: "Cardiac troponin I or T."
+        },
+        {
+          q: "What ECG change suggests STEMI?",
+          a: "ST-segment elevation in anatomically contiguous leads."
+        },
+        {
+          q: "First-line reperfusion strategy for STEMI when available?",
+          a: "Primary PCI, ideally within 90 minutes door-to-balloon time."
+        },
+        {
+          q: "What is the main mechanism of myocardial infarction?",
+          a: "Acute plaque rupture with thrombus formation causing coronary artery occlusion."
+        },
+        {
+          q: "What is the major contraindication to nitrates in MI?",
+          a: "Right ventricular infarction or recent PDE-5 inhibitor use."
+        }
       ];
 
       let currentIndex = 0;
-      let knownCount = 0;
-      let reviewCount = 0;
+      let knownCount = parseInt(localStorage.getItem('fc_known') || '0');
+      let reviewCount = parseInt(localStorage.getItem('fc_review') || '0');
 
       const flashcardInner = document.getElementById('flashcardInner');
       const questionText = document.getElementById('questionText');
       const answerText = document.getElementById('answerText');
       const cardIndexLabel = document.getElementById('cardIndexLabel');
       
+      const knownCounter = document.getElementById('knownCounter');
+      const reviewCounter = document.getElementById('reviewCounter');
+
+      knownCounter.textContent = knownCount;
+      reviewCounter.textContent = reviewCount;
+
       const updateCard = () => {
         flashcardInner.classList.remove('flipped');
         setTimeout(() => {
@@ -46,10 +90,24 @@
         flashcardInner.classList.toggle('flipped');
       });
 
+      // Controls
+      document.getElementById('btnNext').addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentIndex = (currentIndex + 1) % deck.length;
+        updateCard();
+      });
+
+      document.getElementById('btnPrev').addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentIndex = (currentIndex - 1 + deck.length) % deck.length;
+        updateCard();
+      });
+
       document.getElementById('btnKnown').addEventListener('click', (e) => {
         e.stopPropagation();
         knownCount++;
-        document.getElementById('knownCounter').textContent = knownCount;
+        localStorage.setItem('fc_known', knownCount);
+        knownCounter.textContent = knownCount;
         currentIndex = (currentIndex + 1) % deck.length;
         updateCard();
       });
@@ -57,8 +115,21 @@
       document.getElementById('btnReview').addEventListener('click', (e) => {
         e.stopPropagation();
         reviewCount++;
-        document.getElementById('reviewCounter').textContent = reviewCount;
+        localStorage.setItem('fc_review', reviewCount);
+        reviewCounter.textContent = reviewCount;
         currentIndex = (currentIndex + 1) % deck.length;
+        updateCard();
+      });
+
+      document.getElementById('btnReset').addEventListener('click', (e) => {
+        e.stopPropagation();
+        knownCount = 0;
+        reviewCount = 0;
+        localStorage.setItem('fc_known', '0');
+        localStorage.setItem('fc_review', '0');
+        knownCounter.textContent = 0;
+        reviewCounter.textContent = 0;
+        currentIndex = 0;
         updateCard();
       });
 
@@ -80,18 +151,26 @@
       position: relative;
       width: 100%;
       height: 100%;
-      text-align: center;
       transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       transform-style: preserve-3d;
     }
     .issac-flashcard-inner.flipped {
       transform: rotateY(180deg);
     }
+    .issac-flashcard-inner.flipped .issac-flashcard-front {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .issac-flashcard-inner.flipped .issac-flashcard-back {
+      opacity: 1;
+      pointer-events: auto;
+    }
     .issac-flashcard-front, .issac-flashcard-back {
       position: absolute;
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
       border-radius: var(--issac-radius-lg);
       border: 1px solid var(--issac-border);
       padding: 2.5rem 2rem;
@@ -99,15 +178,30 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background: var(--issac-surface);
       box-shadow: var(--issac-shadow-lg);
+      box-sizing: border-box;
+      transition: opacity 0.3s ease;
+    }
+    .issac-flashcard-front {
+      background: var(--issac-surface);
+      color: var(--issac-text);
+      transform: rotateY(0deg);
+      opacity: 1;
+      z-index: 2;
     }
     .issac-flashcard-back {
       background: var(--issac-purple-light);
       border-color: var(--issac-purple);
       color: var(--issac-purple);
       transform: rotateY(180deg);
+      opacity: 0;
     }
+    .dark-mode .issac-flashcard-back {
+      background: var(--issac-purple-light);
+      border-color: var(--issac-purple);
+      color: #C084FC;
+    }
+
   </style>
 </head>
 <body class="issac-body">
@@ -117,8 +211,29 @@
     <aside class="issac-sidebar">
       <div>
         <a href="dashboard.html" class="issac-logo">
-          <div class="issac-logo-icon">I</div>
-          <span>ISSAC</span>
+          <svg class="issac-logo-svg" width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="brainGradLogo" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7C3AED"/>
+                <stop offset="50%" stop-color="#A78BFA"/>
+                <stop offset="100%" stop-color="#C084FC"/>
+              </linearGradient>
+            </defs>
+            <path d="M18 10C14 10 11 12 11 15.5C11 17 12 18 13 18.5C12.5 19.5 12.5 21 13.5 22C14.5 23 16 23 18 23" stroke="url(#brainGradLogo)" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M18 10C22 10 25 12 25 15.5C25 17 24 18 23 18.5C23.5 19.5 23.5 21 22.5 22C21.5 23 20 23 18 23" stroke="url(#brainGradLogo)" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="18" y1="10" x2="18" y2="23" stroke="url(#brainGradLogo)" stroke-width="2.5"/>
+            <circle cx="14" cy="13" r="1.5" fill="#7C3AED"/>
+            <circle cx="22" cy="13" r="1.5" fill="#7C3AED"/>
+            <circle cx="12" cy="17" r="1" fill="#A78BFA"/>
+            <circle cx="24" cy="17" r="1" fill="#A78BFA"/>
+            <circle cx="15" cy="21" r="1.5" fill="#C084FC"/>
+            <circle cx="21" cy="21" r="1.5" fill="#C084FC"/>
+            <line x1="14" y1="13" x2="12" y2="17" stroke="#7C3AED" stroke-width="0.75"/>
+            <line x1="22" y1="13" x2="24" y2="17" stroke="#7C3AED" stroke-width="0.75"/>
+            <line x1="12" y1="17" x2="15" y2="21" stroke="#A78BFA" stroke-width="0.75"/>
+            <line x1="24" y1="17" x2="21" y2="21" stroke="#A78BFA" stroke-width="0.75"/>
+          </svg>
+          <span style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; color: var(--issac-text); margin-left: 0.5rem;">ISSAC</span>
         </a>
 
         <div class="issac-nav-group">
@@ -196,13 +311,13 @@
         </div>
       </div>
 
-      <div class="issac-sidebar-user">
+      <a href="profile.html" class="issac-sidebar-user">
         <div class="issac-avatar">DS</div>
         <div class="issac-user-info">
           <span class="issac-username">Dr. Sravya</span>
-          <span class="issac-userrank">Level 12 · Resident</span>
+          <span class="issac-userrank">MBBS Student / Scholar</span>
         </div>
-      </div>
+      </a>
     </aside>
 
     <!-- Main Workspace -->
@@ -216,7 +331,7 @@
       <div class="issac-flashcard-deck" id="flashcardDeck">
         <div class="issac-flashcard-inner" id="flashcardInner">
           <div class="issac-flashcard-front">
-            <span id="cardIndexLabel" style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--issac-text-muted); margin-bottom: 2rem;">Card 1 of 4</span>
+            <span id="cardIndexLabel" style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--issac-text-muted); margin-bottom: 2rem;">Card 1 of 6</span>
             <p id="questionText" style="font-family: var(--font-display); font-size: 1.125rem; font-weight: 700; line-height: 1.5; color: var(--issac-text);"></p>
             <span style="font-size: 0.75rem; color: var(--issac-text-muted); margin-top: auto;">Click card to flip</span>
           </div>
@@ -230,10 +345,15 @@
 
       <!-- Controls & Counters -->
       <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; width: 100%; max-width: 500px;">
-        <div style="display: flex; gap: 1rem; width: 100%;">
-          <button class="issac-btn issac-btn-outline" id="btnReview" style="flex: 1; border-color: var(--issac-rose); color: var(--issac-rose); font-weight: 700;">Review Again</button>
-          <button class="issac-btn issac-btn-primary" id="btnKnown" style="flex: 1; background: var(--issac-emerald); font-weight: 700;">Known</button>
+        <div style="display: flex; gap: 0.5rem; width: 100%;">
+          <button class="issac-btn issac-btn-outline" id="btnPrev" style="flex: 1;">Previous</button>
+          <button class="issac-btn issac-btn-outline" id="btnNext" style="flex: 1;">Next</button>
         </div>
+        <div style="display: flex; gap: 0.5rem; width: 100%;">
+          <button class="issac-btn" id="btnReview" style="flex: 1; border: 1px solid var(--issac-rose); background: transparent; color: var(--issac-rose); font-weight: 700;">Review</button>
+          <button class="issac-btn" id="btnKnown" style="flex: 1; background: var(--issac-emerald); color: white; font-weight: 700;">Known</button>
+        </div>
+        <button class="issac-btn issac-btn-outline" id="btnReset" style="width: 100%;">Reset</button>
 
         <div style="display: flex; gap: 2rem; margin-top: 1rem; font-size: 0.8125rem; color: var(--issac-text-sub);">
           <span>Known: <strong id="knownCounter" style="color: var(--issac-emerald);">0</strong></span>
@@ -244,5 +364,6 @@
     </main>
   </div>
 
+<script src="issac-core.js"></script>
 </body>
 </html>
