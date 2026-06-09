@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ISSAC — Case Study Learning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles-redesign.css">
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const path = window.location.pathname.split('/').pop() || 'dashboard.html';
+      const activeLink = document.querySelector(`.issac-nav-link[href="${path}"]`);
+      if (activeLink) {
+        activeLink.classList.add('active');
+      }
+
+      // MCQ interactive feedback
+      const options = document.querySelectorAll('.case-option');
+      const feedback = document.getElementById('caseFeedback');
+
+      options.forEach(opt => {
+        opt.addEventListener('click', () => {
+          options.forEach(o => {
+            o.disabled = true;
+            o.style.opacity = '0.6';
+          });
+          opt.style.opacity = '1';
+
+          if (opt.dataset.correct === 'true') {
+            opt.style.background = 'var(--issac-emerald-light)';
+            opt.style.borderColor = 'var(--issac-emerald)';
+            opt.style.color = 'var(--issac-emerald)';
+            feedback.style.display = 'block';
+            feedback.className = 'issac-badge issac-badge-emerald';
+            feedback.textContent = 'Correct! Administering chewed Aspirin inhibits platelets immediately. Activating the cath lab for STEMI is critical.';
+          } else {
+            opt.style.background = 'var(--issac-rose-light)';
+            opt.style.borderColor = 'var(--issac-rose)';
+            opt.style.color = 'var(--issac-rose)';
+            feedback.style.display = 'block';
+            feedback.className = 'issac-badge issac-badge-rose';
+            feedback.textContent = 'Incorrect. Waiting for lab reports delays emergent balloon reperfusion.';
+          }
+        });
+      });
+
+    });
+  </script>
+</head>
+<body class="issac-body">
+
+  <div class="issac-container">
+    <!-- Left Sidebar Nav -->
+    <aside class="issac-sidebar">
+      <div>
+        <a href="dashboard.html" class="issac-logo">
+          <div class="issac-logo-icon">I</div>
+          <span>ISSAC</span>
+        </a>
+
+        <div class="issac-nav-group">
+          <div class="issac-nav-header">Workspace</div>
+          <nav class="issac-nav-list">
+            <a href="dashboard.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              Home Dashboard
+            </a>
+            <a href="categories.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+              Learning Categories
+            </a>
+            <a href="library.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20M4 19.5V3a2.5 2.5 0 0 1 2.5-2.5H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5z"/></svg>
+              Saved Library
+            </a>
+            <a href="analytics.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              Progress Analytics
+            </a>
+          </nav>
+        </div>
+
+        <div class="issac-nav-group">
+          <div class="issac-nav-header">Medical Engine</div>
+          <nav class="issac-nav-list">
+            <a href="mentor.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              ISSAC Mentor
+            </a>
+            <a href="navigator.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              Symptom Navigator
+            </a>
+            <a href="knowledge.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="5" cy="5" r="3"/><circle cx="19" cy="5" r="3"/><line x1="7.1" y1="7.1" x2="9.9" y2="9.9"/><line x1="16.9" y1="7.1" x2="14.1" y2="9.9"/></svg>
+              Knowledge Engine
+            </a>
+          </nav>
+        </div>
+
+        <div class="issac-nav-group">
+          <div class="issac-nav-header">Studies & Learning</div>
+          <nav class="issac-nav-list">
+            <a href="topic.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6.036a10.09 10.09 0 0 1-.5-1.077C11.392 3.86 10.277 3 9 3c-1.933 0-3.5 1.567-3.5 3.5v13.303a.5.5 0 0 0 .753.432C7.3 19.606 8.583 19 10 19c1.933 0 3.5 1.567 3.5 3.5V6.036z"/></svg>
+              Topic Learning
+            </a>
+            <a href="flashcards.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+              Medical Flashcards
+            </a>
+            <a href="diagram.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+              Diagram Studio
+            </a>
+            <a href="flowcharts.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+              Medical Flowcharts
+            </a>
+            <a href="compare.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 3h5v5M8 21H3v-5M21 3L12 12M3 21l9-9"/></svg>
+              Concept Compare
+            </a>
+            <a href="notes.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6M9 16h6M9 8h6M4 4h16v16H4V4z"/></svg>
+              Smart Notes Generator
+            </a>
+            <a href="case-study.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Case Study Learning
+            </a>
+          </nav>
+        </div>
+      </div>
+
+      <div class="issac-sidebar-user">
+        <div class="issac-avatar">DS</div>
+        <div class="issac-user-info">
+          <span class="issac-username">Dr. Sravya</span>
+          <span class="issac-userrank">Level 12 · Resident</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="issac-main">
+      <header class="issac-header">
+        <h1 class="issac-title">Case Study Learning</h1>
+        <p class="issac-subtitle">Learn clinical reasoning through guided patient cases.</p>
+      </header>
+
+      <!-- Layout Grid -->
+      <div class="issac-grid-2-1">
+        
+        <!-- Left: Case Details -->
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          
+          <!-- Presentation -->
+          <section class="issac-card">
+            <h3 style="font-family: var(--font-display); font-size: 1.125rem; font-weight: 700; color: var(--issac-purple); margin-bottom: 0.5rem;">Patient Presentation</h3>
+            <p style="font-size: 0.875rem; color: var(--issac-text-sub); line-height: 1.5;">A 45-year-old male presents to the Emergency Department complaining of severe, crushing substernal chest pain radiating to his left shoulder, which started 45 minutes ago. He is visibly diaphoretic, nauseous, and dyspneic.</p>
+          </section>
+
+          <!-- History & Exam -->
+          <section class="issac-card">
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <div>
+                <h4 style="font-family: var(--font-display); font-size: 0.9375rem; font-weight: 700; color: var(--issac-text); margin-bottom: 0.25rem;">Clinical History</h4>
+                <p style="font-size: 0.8125rem; color: var(--issac-text-sub);">Patient has a history of dyslipidemia and hypertension. Strong family history of early coronary artery disease (father had an MI at age 48).</p>
+              </div>
+              <div>
+                <h4 style="font-family: var(--font-display); font-size: 0.9375rem; font-weight: 700; color: var(--issac-text); margin-bottom: 0.25rem;">Physical Examination</h4>
+                <p style="font-size: 0.8125rem; color: var(--issac-text-sub);">Blood Pressure: 142/90 mmHg. Heart Rate: 98 bpm (sinus rhythm). Respiration: 22/min. Lungs are clear to auscultation. S1 and S2 are normal, no murmurs.</p>
+              </div>
+              <div>
+                <h4 style="font-family: var(--font-display); font-size: 0.9375rem; font-weight: 700; color: var(--issac-text); margin-bottom: 0.25rem;">Diagnostic Investigations</h4>
+                <p style="font-size: 0.8125rem; color: var(--issac-text-sub);">12-Lead ECG demonstrates ST-segment elevations >2mm in Leads V1-V4, suggesting an acute anterior myocardial infarction. Serum troponins are ordered.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Differential & Final Diagnosis -->
+          <section class="issac-card">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div>
+                <h4 style="font-family: var(--font-display); font-size: 0.9375rem; font-weight: 700; color: var(--issac-text); margin-bottom: 0.25rem;">Differential Diagnosis</h4>
+                <p style="font-size: 0.8125rem; color: var(--issac-text-sub);">Acute Coronary Syndrome, Aortic Dissection, Pulmonary Embolism, Pericarditis, Esophageal Spasm.</p>
+              </div>
+              <div>
+                <h4 style="font-family: var(--font-display); font-size: 0.9375rem; font-weight: 700; color: var(--issac-text); margin-bottom: 0.25rem;">Final Diagnosis</h4>
+                <p style="font-size: 0.8125rem; color: var(--issac-text-sub);">Acute Anterior Wall STEMI (LAD artery occlusion).</p>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Right: Treatment Plan & Interactive Next Step MCQ -->
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          
+          <!-- Treatment Plan -->
+          <div class="issac-card">
+            <h3 class="issac-card-title" style="margin-bottom: 0.5rem;">Treatment Plan</h3>
+            <ul style="font-size: 0.8125rem; color: var(--issac-text-sub); display: flex; flex-direction: column; gap: 0.5rem; list-style: none;">
+              <li>✓ Administer chewable Aspirin 325 mg immediately</li>
+              <li>✓ Sublingual Nitroglycerin (if blood pressure stable)</li>
+              <li>✓ Emergent cardiac catheterization laboratory activation</li>
+              <li>✓ Post-PCI DAPT, statin, and beta-blocker initiation</li>
+            </ul>
+          </div>
+
+          <!-- Interactive Next Step Question MCQ -->
+          <div class="issac-card">
+            <div class="issac-card-header" style="margin-bottom: 0.75rem;">
+              <h3 class="issac-card-title" style="color: var(--issac-purple);">Next Step Question</h3>
+            </div>
+            
+            <p style="font-size: 0.875rem; color: var(--issac-text); font-weight: 600; margin-bottom: 1rem;">What is the most critical immediate step for this patient?</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem;">
+              <button class="issac-btn case-option" data-correct="true" style="padding: 0.625rem; font-size: 0.8125rem; border: 1px solid var(--issac-border); border-radius: 8px; justify-content: flex-start;">Aspirin 325 mg & activate Cath Lab</button>
+              <button class="issac-btn case-option" data-correct="false" style="padding: 0.625rem; font-size: 0.8125rem; border: 1px solid var(--issac-border); border-radius: 8px; justify-content: flex-start;">Wait for Troponin lab values</button>
+              <button class="issac-btn case-option" data-correct="false" style="padding: 0.625rem; font-size: 0.8125rem; border: 1px solid var(--issac-border); border-radius: 8px; justify-content: flex-start;">Order a Chest CT angiogram</button>
+              <button class="issac-btn case-option" data-correct="false" style="padding: 0.625rem; font-size: 0.8125rem; border: 1px solid var(--issac-border); border-radius: 8px; justify-content: flex-start;">Perform synchronized cardioversion</button>
+            </div>
+
+            <span id="caseFeedback" style="display: none; font-size: 0.75rem; padding: 0.5rem; width: 100%;"></span>
+          </div>
+
+          <!-- Clinical Pearl Card -->
+          <div class="issac-card" style="background: var(--issac-purple-light); border-color: var(--issac-purple);">
+            <h4 style="font-family: var(--font-display); font-size: 0.875rem; font-weight: 700; color: var(--issac-purple); margin-bottom: 0.25rem;">Clinical Pearl</h4>
+            <p style="font-size: 0.8125rem; color: var(--issac-purple); line-height: 1.4;">"Time is muscle." Primary PCI should be performed within 90 minutes of medical contact to minimize myocardial damage.</p>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>

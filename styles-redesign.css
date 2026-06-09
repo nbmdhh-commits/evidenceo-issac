@@ -1,0 +1,678 @@
+/* ============================================================
+   ISSAC — Modern Redesign Stylesheet
+   Design Language: Apple-inspired, minimalist, soft lavender-gray background,
+   pure white cards, deep purple accents, high typography hierarchy.
+   ============================================================ */
+
+:root {
+  /* Colors */
+  --issac-bg: #F5F5FA;              /* Calm soft lavender-gray */
+  --issac-surface: #FFFFFF;         /* Pure white cards */
+  --issac-surface-hover: #FAF8FE;
+  --issac-border: #E8E8EC;
+  --issac-border-subtle: #F1F1F4;
+  
+  --issac-purple: #7C3AED;          /* Deep violet accent */
+  --issac-purple-light: #F3EEFF;    /* Light violet background tint */
+  --issac-purple-hover: #6D28D9;
+  
+  --issac-emerald: #10B981;
+  --issac-emerald-light: #ECFDF5;
+  --issac-rose: #EF4444;
+  --issac-rose-light: #FEF2F2;
+  --issac-amber: #F59E0B;
+  --issac-amber-light: #FEF3C7;
+  
+  --issac-text: #1C1C1E;            /* Dark charcoal */
+  --issac-text-sub: #5C5C5E;        /* Gray */
+  --issac-text-muted: #8E8E93;      /* Light gray */
+
+  /* Fonts */
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', SFMono-Regular, Consolas, monospace;
+
+  /* Shadows */
+  --issac-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --issac-shadow-md: 0 8px 20px rgba(124, 58, 237, 0.03), 0 2px 6px rgba(0, 0, 0, 0.02);
+  --issac-shadow-lg: 0 12px 30px rgba(124, 58, 237, 0.06), 0 4px 12px rgba(0, 0, 0, 0.03);
+
+  /* Borders & Radius */
+  --issac-radius: 16px;
+  --issac-radius-lg: 20px;
+  --issac-radius-sm: 8px;
+}
+
+/* Global Reset Overrides */
+body.issac-body {
+  font-family: var(--font-body);
+  background: var(--issac-bg);
+  color: var(--issac-text);
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.issac-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar Layout */
+.issac-sidebar {
+  width: 260px;
+  background: var(--issac-surface);
+  border-right: 1px solid var(--issac-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem 1rem;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.issac-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--issac-text);
+}
+
+.issac-logo-icon {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, var(--issac-purple), #A78BFA);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+.issac-nav-group {
+  margin-top: 1.5rem;
+}
+
+.issac-nav-header {
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--issac-text-muted);
+  padding: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.issac-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.issac-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: var(--issac-radius-sm);
+  color: var(--issac-text-sub);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.issac-nav-link:hover {
+  background: var(--issac-border-subtle);
+  color: var(--issac-text);
+}
+
+.issac-nav-link.active {
+  background: var(--issac-purple-light);
+  color: var(--issac-purple);
+  font-weight: 600;
+}
+
+.issac-nav-link svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Sidebar Footer User Details */
+.issac-sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-top: 1px solid var(--issac-border);
+  margin-top: auto;
+}
+
+.issac-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--issac-purple-light);
+  color: var(--issac-purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.issac-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.issac-username {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--issac-text);
+}
+
+.issac-userrank {
+  font-size: 0.6875rem;
+  color: var(--issac-text-muted);
+}
+
+/* Main Content Workspace */
+.issac-main {
+  flex-grow: 1;
+  padding: 2.5rem;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+.issac-header {
+  margin-bottom: 2rem;
+}
+
+.issac-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--issac-text);
+  margin-bottom: 0.375rem;
+  letter-spacing: -0.02em;
+}
+
+.issac-subtitle {
+  font-size: 0.9375rem;
+  color: var(--issac-text-sub);
+  max-width: 800px;
+}
+
+/* Layout Grids */
+.issac-grid-2-1 {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.issac-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.issac-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+/* Apple-style Cards */
+.issac-card {
+  background: var(--issac-surface);
+  border: 1px solid var(--issac-border-subtle);
+  border-radius: var(--issac-radius);
+  padding: 1.5rem;
+  box-shadow: var(--issac-shadow-md);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.issac-card.hoverable:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--issac-shadow-lg);
+  border-color: rgba(124, 58, 237, 0.15);
+}
+
+.issac-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.issac-card-title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--issac-text);
+}
+
+/* Buttons */
+.issac-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--issac-radius-sm);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.issac-btn-primary {
+  background: var(--issac-purple);
+  color: white;
+}
+
+.issac-btn-primary:hover {
+  background: var(--issac-purple-hover);
+}
+
+.issac-btn-secondary {
+  background: var(--issac-purple-light);
+  color: var(--issac-purple);
+}
+
+.issac-btn-secondary:hover {
+  background: #EBE5FF;
+}
+
+.issac-btn-outline {
+  background: transparent;
+  border: 1px solid var(--issac-border);
+  color: var(--issac-text-sub);
+}
+
+.issac-btn-outline:hover {
+  background: var(--issac-border-subtle);
+  color: var(--issac-text);
+  border-color: var(--issac-text-muted);
+}
+
+/* Quick Actions Grid */
+.issac-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.75rem;
+}
+
+.issac-quick-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 0.75rem;
+  background: var(--issac-surface);
+  border: 1px solid var(--issac-border-subtle);
+  border-radius: var(--issac-radius);
+  text-align: center;
+  text-decoration: none;
+  color: var(--issac-text);
+  box-shadow: var(--issac-shadow-sm);
+  transition: all 0.2s ease;
+  gap: 0.5rem;
+}
+
+.issac-quick-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--issac-shadow-md);
+  border-color: var(--issac-purple);
+}
+
+.issac-quick-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--issac-purple-light);
+  color: var(--issac-purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.issac-quick-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.issac-quick-label {
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+/* Concept Cards */
+.issac-concept-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.issac-concept-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: var(--issac-surface);
+  border: 1px solid var(--issac-border-subtle);
+  border-radius: var(--issac-radius);
+  text-decoration: none;
+  transition: all 0.15s ease;
+  box-shadow: var(--issac-shadow-sm);
+}
+
+.issac-concept-card:hover {
+  border-color: var(--issac-purple);
+  box-shadow: var(--issac-shadow-md);
+}
+
+.issac-concept-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.issac-concept-title {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--issac-text);
+}
+
+.issac-concept-meta {
+  font-size: 0.75rem;
+  color: var(--issac-text-muted);
+}
+
+.issac-arrow-icon {
+  color: var(--issac-purple);
+}
+
+/* Badge System */
+.issac-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--issac-radius-sm);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.issac-badge-purple {
+  background: var(--issac-purple-light);
+  color: var(--issac-purple);
+}
+
+.issac-badge-emerald {
+  background: var(--issac-emerald-light);
+  color: var(--issac-emerald);
+}
+
+.issac-badge-rose {
+  background: var(--issac-rose-light);
+  color: var(--issac-rose);
+}
+
+.issac-badge-amber {
+  background: var(--issac-amber-light);
+  color: var(--issac-amber);
+}
+
+/* Search Bar Large Component */
+.issac-search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1.5rem;
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.issac-search-box {
+  width: 100%;
+  position: relative;
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.issac-search-input {
+  flex-grow: 1;
+  padding: 0.875rem 1.25rem;
+  border: 1px solid var(--issac-border);
+  border-radius: 12px;
+  font-size: 0.9375rem;
+  background: var(--issac-surface);
+  box-shadow: var(--issac-shadow-sm);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.issac-search-input:focus {
+  border-color: var(--issac-purple);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+
+.issac-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.issac-chip {
+  padding: 0.375rem 0.875rem;
+  background: var(--issac-surface);
+  border: 1px solid var(--issac-border-subtle);
+  border-radius: var(--issac-radius-full);
+  font-size: 0.8125rem;
+  color: var(--issac-text-sub);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.issac-chip:hover {
+  border-color: var(--issac-purple);
+  color: var(--issac-purple);
+  background: var(--issac-purple-light);
+}
+
+/* Input Form Controls */
+.issac-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+.issac-form-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--issac-text-sub);
+}
+
+.issac-form-select {
+  padding: 0.625rem 0.875rem;
+  border-radius: var(--issac-radius-sm);
+  border: 1px solid var(--issac-border);
+  font-size: 0.875rem;
+  background: var(--issac-surface);
+  outline: none;
+  cursor: pointer;
+}
+
+.issac-form-select:focus {
+  border-color: var(--issac-purple);
+}
+
+/* Tab Filter styling */
+.issac-tabs {
+  display: flex;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--issac-border);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.issac-tab-btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--issac-text-sub);
+  border-radius: var(--issac-radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.issac-tab-btn:hover {
+  background: var(--issac-border-subtle);
+  color: var(--issac-text);
+}
+
+.issac-tab-btn.active {
+  background: var(--issac-purple-light);
+  color: var(--issac-purple);
+  font-weight: 600;
+}
+
+/* Simple Accordion */
+.issac-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.issac-accordion-item {
+  border: 1px solid var(--issac-border-subtle);
+  border-radius: var(--issac-radius-sm);
+  overflow: hidden;
+}
+
+.issac-accordion-header {
+  padding: 0.875rem 1rem;
+  background: var(--issac-border-subtle);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.issac-accordion-content {
+  padding: 1rem;
+  background: var(--issac-surface);
+  font-size: 0.8125rem;
+  color: var(--issac-text-sub);
+  line-height: 1.5;
+  display: none;
+}
+
+.issac-accordion-content.open {
+  display: block;
+}
+
+/* Comparison Table Styling */
+.issac-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.issac-table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  color: var(--issac-text-muted);
+  border-bottom: 1px solid var(--issac-border);
+}
+
+.issac-table td {
+  padding: 0.875rem 1rem;
+  font-size: 0.875rem;
+  border-bottom: 1px solid var(--issac-border-subtle);
+}
+
+.issac-table tr:hover td {
+  background: var(--issac-surface-hover);
+}
+
+/* Vector Diagram Canvas placeholders */
+.issac-canvas {
+  width: 100%;
+  min-height: 380px;
+  background: #FAF9FC;
+  border: 1.5px dashed var(--issac-border);
+  border-radius: var(--issac-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Smart Notes styling layout */
+.issac-notes-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr 180px;
+  gap: 1rem;
+  border: 1px solid var(--issac-border);
+  border-radius: var(--issac-radius-sm);
+  background: var(--issac-surface);
+  overflow: hidden;
+}
+
+.issac-notes-cue {
+  background: #FDFDFE;
+  border-right: 1px solid var(--issac-border-subtle);
+  padding: 1rem;
+  font-size: 0.8125rem;
+  color: var(--issac-purple);
+  font-weight: 600;
+}
+
+.issac-notes-content {
+  padding: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.issac-notes-summary {
+  background: #FAF9FC;
+  border-left: 1px solid var(--issac-border-subtle);
+  padding: 1rem;
+  font-size: 0.75rem;
+  color: var(--issac-text-sub);
+}

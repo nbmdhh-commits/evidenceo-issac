@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ISSAC — Medical Knowledge Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles-redesign.css">
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const path = window.location.pathname.split('/').pop() || 'dashboard.html';
+      const activeLink = document.querySelector(`.issac-nav-link[href="${path}"]`);
+      if (activeLink) {
+        activeLink.classList.add('active');
+      }
+
+      // Dropdown Switcher
+      const subjectSelect = document.getElementById('subjectSelect');
+      const cardiologyMap = document.getElementById('cardiologyMap');
+      const neurologyMap = document.getElementById('neurologyMap');
+
+      subjectSelect.addEventListener('change', () => {
+        if (subjectSelect.value === 'cardiology') {
+          cardiologyMap.style.display = 'block';
+          neurologyMap.style.display = 'none';
+        } else {
+          cardiologyMap.style.display = 'none';
+          neurologyMap.style.display = 'block';
+        }
+      });
+
+      // Simple Node Click Details
+      const nodes = document.querySelectorAll('.issac-node');
+      const nodeDetails = document.getElementById('nodeDetails');
+
+      nodes.forEach(node => {
+        node.addEventListener('click', () => {
+          const title = node.dataset.title;
+          const info = node.dataset.info;
+          nodeDetails.innerHTML = `
+            <h4 style="font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--issac-purple); margin-bottom: 0.25rem;">${title}</h4>
+            <p style="font-size: 0.8125rem; color: var(--issac-text-sub); line-height: 1.4;">${info}</p>
+          `;
+        });
+      });
+
+    });
+  </script>
+  <style>
+    .issac-node {
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .issac-node:hover circle {
+      fill: var(--issac-purple-light);
+      stroke: var(--issac-purple);
+      stroke-width: 3px;
+    }
+    .issac-node:hover text {
+      fill: var(--issac-purple);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body class="issac-body">
+
+  <div class="issac-container">
+    <!-- Left Sidebar Nav -->
+    <aside class="issac-sidebar">
+      <div>
+        <a href="dashboard.html" class="issac-logo">
+          <div class="issac-logo-icon">I</div>
+          <span>ISSAC</span>
+        </a>
+
+        <div class="issac-nav-group">
+          <div class="issac-nav-header">Workspace</div>
+          <nav class="issac-nav-list">
+            <a href="dashboard.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              Home Dashboard
+            </a>
+            <a href="categories.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+              Learning Categories
+            </a>
+            <a href="library.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20M4 19.5V3a2.5 2.5 0 0 1 2.5-2.5H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5z"/></svg>
+              Saved Library
+            </a>
+            <a href="analytics.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              Progress Analytics
+            </a>
+          </nav>
+        </div>
+
+        <div class="issac-nav-group">
+          <div class="issac-nav-header">Medical Engine</div>
+          <nav class="issac-nav-list">
+            <a href="mentor.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              ISSAC Mentor
+            </a>
+            <a href="navigator.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              Symptom Navigator
+            </a>
+            <a href="knowledge.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="5" cy="5" r="3"/><circle cx="19" cy="5" r="3"/><line x1="7.1" y1="7.1" x2="9.9" y2="9.9"/><line x1="16.9" y1="7.1" x2="14.1" y2="9.9"/></svg>
+              Knowledge Engine
+            </a>
+          </nav>
+        </div>
+
+        <div class="issac-nav-group">
+          <div class="issac-nav-header">Studies & Learning</div>
+          <nav class="issac-nav-list">
+            <a href="topic.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6.036a10.09 10.09 0 0 1-.5-1.077C11.392 3.86 10.277 3 9 3c-1.933 0-3.5 1.567-3.5 3.5v13.303a.5.5 0 0 0 .753.432C7.3 19.606 8.583 19 10 19c1.933 0 3.5 1.567 3.5 3.5V6.036z"/></svg>
+              Topic Learning
+            </a>
+            <a href="flashcards.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+              Medical Flashcards
+            </a>
+            <a href="diagram.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+              Diagram Studio
+            </a>
+            <a href="flowcharts.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+              Medical Flowcharts
+            </a>
+            <a href="compare.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 3h5v5M8 21H3v-5M21 3L12 12M3 21l9-9"/></svg>
+              Concept Compare
+            </a>
+            <a href="notes.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6M9 16h6M9 8h6M4 4h16v16H4V4z"/></svg>
+              Smart Notes Generator
+            </a>
+            <a href="case-study.html" class="issac-nav-link">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Case Study Learning
+            </a>
+          </nav>
+        </div>
+      </div>
+
+      <div class="issac-sidebar-user">
+        <div class="issac-avatar">DS</div>
+        <div class="issac-user-info">
+          <span class="issac-username">Dr. Sravya</span>
+          <span class="issac-userrank">Level 12 · Resident</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="issac-main">
+      <header class="issac-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
+        <div>
+          <h1 class="issac-title">Medical Knowledge Engine</h1>
+          <p class="issac-subtitle">Interactive clinical encyclopedia, concept meshes, and smart knowledge maps.</p>
+        </div>
+        
+        <!-- Subject Dropdown -->
+        <div class="issac-form-group" style="margin-bottom: 0;">
+          <label class="issac-form-label">Active Subject</label>
+          <select class="issac-form-select" id="subjectSelect">
+            <option value="cardiology">Cardiology</option>
+            <option value="neurology">Neurology</option>
+          </select>
+        </div>
+      </header>
+
+      <!-- Layout Grid -->
+      <div class="issac-grid-2-1">
+        
+        <!-- Left Column: Smart Knowledge Map (SVG) -->
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          
+          <div class="issac-card">
+            <div class="issac-card-header">
+              <div class="issac-card-title">Smart Knowledge Map</div>
+              <span style="font-size: 0.75rem; color: var(--issac-text-muted);">Interactive concept mesh. Click nodes for details.</span>
+            </div>
+            
+            <div class="issac-canvas">
+              
+              <!-- Cardiology SVG concept mesh -->
+              <svg id="cardiologyMap" viewBox="0 0 500 320" width="100%" height="320">
+                <g stroke="#E5E5E9" stroke-width="1.5">
+                  <line x1="250" y1="60" x2="150" y2="160" />
+                  <line x1="250" y1="60" x2="350" y2="160" />
+                  <line x1="150" y1="160" x2="80" y2="260" />
+                  <line x1="150" y1="160" x2="220" y2="260" />
+                  <line x1="350" y1="160" x2="280" y2="260" />
+                  <line x1="350" y1="160" x2="420" y2="260" />
+                </g>
+                
+                <!-- Center: Cardiology -->
+                <g class="issac-node" data-title="Cardiology" data-info="The branch of medicine dealing with disorders of the heart and blood vessels." transform="translate(250, 60)">
+                  <circle r="20" fill="white" stroke="var(--issac-purple)" stroke-width="2" />
+                  <text y="5" font-family="Outfit" font-size="11" text-anchor="middle" font-weight="600" fill="var(--issac-text)">Heart</text>
+                </g>
+
+                <!-- Level 2: Heart Anatomy -->
+                <g class="issac-node" data-title="Heart Anatomy" data-info="Structured chambers, muscular walls, valvular gates, and blood perfusion networks." transform="translate(150, 160)">
+                  <circle r="18" fill="white" stroke="var(--issac-purple)" stroke-width="1.5" />
+                  <text y="4" font-family="Outfit" font-size="10" text-anchor="middle" fill="var(--issac-text)">Anatomy</text>
+                </g>
+
+                <!-- Level 2: Coronary Pathology -->
+                <g class="issac-node" data-title="Coronary Pathology" data-info="Occlusions, plaque rupture, and ischemic myocardium necrosis." transform="translate(350, 160)">
+                  <circle r="18" fill="white" stroke="var(--issac-purple)" stroke-width="1.5" />
+                  <text y="4" font-family="Outfit" font-size="10" text-anchor="middle" fill="var(--issac-text)">Pathology</text>
+                </g>
+
+                <!-- Level 3: Conduction System -->
+                <g class="issac-node" data-title="Conduction System" data-info="Electrical conduction pathway: SA node, AV node, Bundle of His, Purkinje fibers." transform="translate(80, 260)">
+                  <circle r="15" fill="white" stroke="var(--issac-purple)" stroke-width="1" />
+                  <text y="4" font-family="Outfit" font-size="9" text-anchor="middle" fill="var(--issac-text)">Electrical</text>
+                </g>
+
+                <!-- Level 3: Chambers & Valves -->
+                <g class="issac-node" data-title="Chambers & Valves" data-info="Four chambers (atria/ventricles) and four gates regulating unidirectional blood flow." transform="translate(220, 260)">
+                  <circle r="15" fill="white" stroke="var(--issac-purple)" stroke-width="1" />
+                  <text y="4" font-family="Outfit" font-size="9" text-anchor="middle" fill="var(--issac-text)">Chambers</text>
+                </g>
+
+                <!-- Level 3: Ischemic Necrosis -->
+                <g class="issac-node" data-title="Ischemic Necrosis" data-info="Myocardial cell death secondary to sudden supply-demand mismatch." transform="translate(280, 260)">
+                  <circle r="15" fill="white" stroke="var(--issac-purple)" stroke-width="1" />
+                  <text y="4" font-family="Outfit" font-size="9" text-anchor="middle" fill="var(--issac-text)">Necrosis</text>
+                </g>
+
+                <!-- Level 3: Biomarkers -->
+                <g class="issac-node" data-title="Biomarkers" data-info="Cardiac enzymes released into circulation (Troponin I/T, CK-MB) confirming cell injury." transform="translate(420, 260)">
+                  <circle r="15" fill="white" stroke="var(--issac-purple)" stroke-width="1" />
+                  <text y="4" font-family="Outfit" font-size="9" text-anchor="middle" fill="var(--issac-text)">Biomarkers</text>
+                </g>
+
+              </svg>
+
+              <!-- Neurology SVG concept mesh (Hidden initially) -->
+              <svg id="neurologyMap" viewBox="0 0 500 320" width="100%" height="320" style="display: none;">
+                <g stroke="#E5E5E9" stroke-width="1.5">
+                  <line x1="250" y1="60" x2="150" y2="160" />
+                  <line x1="250" y1="60" x2="350" y2="160" />
+                </g>
+                <g class="issac-node" data-title="Neurology" data-info="The study of diseases and disorders of the central and peripheral nervous system." transform="translate(250, 60)">
+                  <circle r="20" fill="white" stroke="var(--issac-purple)" stroke-width="2" />
+                  <text y="5" font-family="Outfit" font-size="11" text-anchor="middle" font-weight="600" fill="var(--issac-text)">Nervous</text>
+                </g>
+                <g class="issac-node" data-title="Brain Stroke" data-info="Focal ischemia causing acute neurological deficit." transform="translate(150, 160)">
+                  <circle r="18" fill="white" stroke="var(--issac-purple)" stroke-width="1.5" />
+                  <text y="4" font-family="Outfit" font-size="10" text-anchor="middle" fill="var(--issac-text)">Stroke</text>
+                </g>
+                <g class="issac-node" data-title="Localizing Signs" data-info="Clinical deficits pointing to specific anatomical lesion sites." transform="translate(350, 160)">
+                  <circle r="18" fill="white" stroke="var(--issac-purple)" stroke-width="1.5" />
+                  <text y="4" font-family="Outfit" font-size="10" text-anchor="middle" fill="var(--issac-text)">Lesions</text>
+                </g>
+              </svg>
+
+              <!-- Selected Node Info overlay panel -->
+              <div id="nodeDetails" style="position: absolute; bottom: 1rem; left: 1rem; right: 1rem; background: var(--issac-surface); border: 1px solid var(--issac-border); padding: 0.75rem 1rem; border-radius: var(--issac-radius-sm); box-shadow: var(--issac-shadow-sm); min-height: 60px;">
+                <span style="font-size: 0.8125rem; color: var(--issac-text-muted);">Select any concept node in the map above to load clinical definitions.</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Interactive Medical Roadmap -->
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          
+          <div class="issac-card">
+            <div class="issac-card-header" style="margin-bottom: 0.75rem;">
+              <h3 class="issac-card-title">Interactive Medical Roadmap</h3>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              
+              <!-- Expanding Cardiology Roadmap -->
+              <div style="border-left: 2px solid var(--issac-purple-light); padding-left: 1rem; margin-left: 0.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                
+                <div>
+                  <h4 style="font-family: var(--font-display); font-size: 0.9375rem; font-weight: 700; color: var(--issac-purple); margin-bottom: 0.25rem;">Cardiology Roadmap</h4>
+                  <p style="font-size: 0.75rem; color: var(--issac-text-muted);">Core Pre-clinical & Clinical outline.</p>
+                </div>
+
+                <details style="font-size: 0.875rem;" open>
+                  <summary style="cursor: pointer; font-weight: 600; padding: 0.25rem 0; color: var(--issac-text);">Heart Anatomy</summary>
+                  <ul style="padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.375rem; margin-top: 0.25rem; color: var(--issac-text-sub); font-size: 0.8125rem;">
+                    <li>✓ Chambers (Atria & Ventricles)</li>
+                    <li>✓ Valves (Mitral, Tricuspid, Aortic)</li>
+                    <li>✓ Blood Supply (LAD, RCA, LCx arteries)</li>
+                    <li>✓ Conduction System (SA/AV node sync)</li>
+                  </ul>
+                </details>
+
+                <details style="font-size: 0.875rem;">
+                  <summary style="cursor: pointer; font-weight: 600; padding: 0.25rem 0; color: var(--issac-text);">Ischemic Pathophysiology</summary>
+                  <p style="padding-left: 1.25rem; margin-top: 0.25rem; color: var(--issac-text-sub); font-size: 0.8125rem;">Plaque rupture, cellular hypoxia, tissue necrosis, remodeling mechanisms.</p>
+                </details>
+
+                <details style="font-size: 0.875rem;">
+                  <summary style="cursor: pointer; font-weight: 600; padding: 0.25rem 0; color: var(--issac-text);">Clinical Interventions</summary>
+                  <p style="padding-left: 1.25rem; margin-top: 0.25rem; color: var(--issac-text-sub); font-size: 0.8125rem;">Antiplatelet loading, emergent PCI window, thrombolytic triggers.</p>
+                </details>
+
+              </div>
+
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                <a href="topic.html" class="issac-btn issac-btn-primary" style="width: 100%; text-align: center;">Study Heart Anatomy</a>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>
