@@ -54,9 +54,9 @@
             <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             Dashboard
           </a>
-          <a href="ai-mentor.html" class="sidebar-link" id="nav-ai-mentor">
+          <a href="clinical-mentor.html" class="sidebar-link" id="nav-ai-mentor">
             <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            ISSAC AI Mentor
+            Clinical Mentor
           </a>
           <a href="simulator.html" class="sidebar-link" id="nav-simulator">
             <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
@@ -103,7 +103,7 @@
       <header class="os-header">
         <div>
           <h1 class="os-title">Faculty & Institution Console</h1>
-          <p class="os-subtitle-desc">Track cohort-level engagement, study metrics, clinical accuracy, and AI diagnostic alerts.</p>
+          <p class="os-subtitle-desc">Track cohort-level engagement, study metrics, clinical accuracy, and performance alerts.</p>
         </div>
         <div>
           <!-- Cohort select drop -->
@@ -277,7 +277,7 @@
                   <td>1,980 XP</td>
                   <td>64.5%</td>
                   <td>
-                    <span class="student-flag-badge" style="cursor: help; background: #fff1f2; border: 1px solid rgba(244,63,94,0.2); color: var(--ev-rose);" title="AI Analysis: ECG STEMI Interpretation accuracy is 55%. Fails 3 of last 4 coronary drug selection simulations.">
+                    <span class="student-flag-badge" style="cursor: help; background: #fff1f2; border: 1px solid rgba(244,63,94,0.2); color: var(--ev-rose);" title="Performance Analysis: ECG STEMI Interpretation accuracy is 55%. Fails 3 of last 4 coronary drug selection simulations.">
                       Performance Alert
                     </span>
                   </td>
@@ -334,7 +334,7 @@
       const flags = document.querySelectorAll('.student-flag-badge');
       flags.forEach(badge => {
         badge.addEventListener('click', () => {
-          alert("AI Cohort Analyzer:\n" + badge.title);
+          alert("Cohort Performance Analyzer:\n" + badge.title);
         });
       });
     });
